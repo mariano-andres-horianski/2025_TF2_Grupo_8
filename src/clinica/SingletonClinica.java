@@ -1,20 +1,21 @@
 package clinica;
 
 public class SingletonClinica {
-	public String nombre,direccion,telefono,ciudad;
+	public String nombre, direccion, telefono, ciudad;
 	private SingletonClinica instance;
-	private SingletonClinica(){
+
+	private SingletonClinica() {
 		ciudad = "Mar del Plata";
 		direccion = "Avenida Siempreviva 123";
 		telefono = "22300000";
-		nombre = "Clínica Colón";
+		nombre = "ClÃ­nica ColÃ³n";
 	}
-	
-	public SingletonClinica getInstance(){
-		if (instance == null){
+
+	public SingletonClinica getInstance() {
+		if (instance == null) {
 			this.instance = new SingletonClinica();
 		}
-		
+
 		return this.instance;
 	}
 }

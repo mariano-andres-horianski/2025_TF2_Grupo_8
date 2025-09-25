@@ -1,0 +1,14 @@
+package temp;
+
+public class MPediatra extends Especialidad {
+
+	public MPediatra() {
+		super("Médico pediatra");
+	}
+
+	@Override
+	public double getHonorario(double base) {
+		return base * 1.07;
+	}
+
+}
