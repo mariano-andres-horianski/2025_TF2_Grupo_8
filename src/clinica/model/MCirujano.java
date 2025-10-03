@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public class MCirujano extends Especialidad {
 

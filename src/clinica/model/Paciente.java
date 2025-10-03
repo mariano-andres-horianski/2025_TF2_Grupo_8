@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public class Paciente extends Persona {
 	private int nroHC;

@@ -1,6 +1,6 @@
-package tempDecorator;
+package clinica.model.decorators;
 
-import temp.*;
+import clinica.model.IMedico;
 
 public class DecoratorContratacionPermanente extends DecoratorContratacion {
 
@@ -10,5 +10,10 @@ public class DecoratorContratacionPermanente extends DecoratorContratacion {
 	
 	public double getHonorario() {
 		return this.encapsulado.getHonorario() * 1.1;
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "Contratación = permanente";
 	}
 }

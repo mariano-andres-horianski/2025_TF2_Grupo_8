@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public class Domicilio {
 	private String calle;

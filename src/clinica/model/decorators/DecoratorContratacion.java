@@ -1,6 +1,6 @@
-package tempDecorator;
+package clinica.model.decorators;
 
-import temp.*;
+import clinica.model.IMedico;
 
 public abstract class DecoratorContratacion extends DecoratorMedico {
 

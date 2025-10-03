@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public class Medico extends Persona implements IMedico {
 	public static final double honorarioBase = 20000;
@@ -22,4 +22,11 @@ public class Medico extends Persona implements IMedico {
 	public double getHonorario() {
 		return this.especialidad.getHonorario(honorarioBase);
 	}
+
+	@Override
+	public String toString() {
+		return "" + super.toString() + " Medico [nroMat=" + nroMat + ", especialidad=" + especialidad + "]";
+	}
+	
+	
 }

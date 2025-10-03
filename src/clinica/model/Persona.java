@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public abstract class Persona implements IPersona {
 	private String dni, nya, ciudad, telefono; // nya = Nombre y Apellido
@@ -21,7 +21,7 @@ public abstract class Persona implements IPersona {
 	public String getNya() {
 		return nya;
 	}
-	
+
 	@Override
 	public String getCiudad() {
 		return ciudad;
@@ -35,6 +35,12 @@ public abstract class Persona implements IPersona {
 	@Override
 	public Domicilio getDomicilio() {
 		return domicilio;
+	}
+
+	@Override
+	public String toString() {
+		return "Persona [dni=" + dni + ", nya=" + nya + ", ciudad=" + ciudad + ", telefono=" + telefono + ", domicilio="
+				+ domicilio + "]";
 	}
 
 }

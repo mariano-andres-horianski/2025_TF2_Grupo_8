@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public abstract class Especialidad {
 	private String nombre; // de la especialidad

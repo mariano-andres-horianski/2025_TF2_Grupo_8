@@ -1,8 +1,8 @@
-package tempDecorator;
+package clinica.model.decorators;
 
-import temp.Domicilio;
-import temp.Especialidad;
-import temp.IMedico;
+import clinica.model.Domicilio;
+import clinica.model.Especialidad;
+import clinica.model.IMedico;
 
 public abstract class DecoratorMedico implements IMedico {
 	protected IMedico encapsulado;
@@ -43,4 +43,10 @@ public abstract class DecoratorMedico implements IMedico {
 	public Especialidad getEspecialidad() {
 		return this.encapsulado.getEspecialidad();
 	}
+
+	@Override
+	public String toString() {
+		return "" + encapsulado;
+	}
+
 }

@@ -1,4 +1,4 @@
-package temp;
+package clinica.model;
 
 public interface IMedico extends IPersona {
 	public int getNroMat();
