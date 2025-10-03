@@ -11,9 +11,4 @@ public class DecoratorPosgradoMagister extends DecoratorPosgrado {
 	public double getHonorario() {
 		return this.encapsulado.getHonorario() * 1.05;
 	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + "Posgrado = Magister";
-	}
 }

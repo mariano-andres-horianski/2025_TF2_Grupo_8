@@ -3,7 +3,7 @@ package clinica.model;
 public class MClinico extends Especialidad {
 
 	public MClinico() {
-		super("Médico clínico");
+		super("Clínico");
 	}
 
 	@Override

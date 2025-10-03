@@ -3,7 +3,7 @@ package clinica.model;
 public class MPediatra extends Especialidad {
 
 	public MPediatra() {
-		super("Médico pediatra");
+		super("Pediatra");
 	}
 
 	@Override

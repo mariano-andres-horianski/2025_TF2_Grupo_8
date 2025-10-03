@@ -1,14 +1,19 @@
 package clinica.model;
 
+import java.util.ArrayList;
+
 public class Medico extends Persona implements IMedico {
 	public static final double honorarioBase = 20000;
 	private int nroMat;
 	private Especialidad especialidad;
+	private ArrayList<Consulta> consultas;
 
-	public Medico(String dni, String nya, String ciudad, String telefono, Domicilio domicilio, int nroMat, Especialidad especialidad) {
+	public Medico(String dni, String nya, String ciudad, String telefono, Domicilio domicilio, int nroMat,
+			Especialidad especialidad) {
 		super(dni, nya, ciudad, telefono, domicilio);
 		this.nroMat = nroMat;
 		this.especialidad = especialidad;
+		this.consultas = new ArrayList<>();
 	}
 
 	public int getNroMat() {
@@ -23,10 +28,17 @@ public class Medico extends Persona implements IMedico {
 		return this.especialidad.getHonorario(honorarioBase);
 	}
 
-	@Override
-	public String toString() {
-		return "" + super.toString() + " Medico [nroMat=" + nroMat + ", especialidad=" + especialidad + "]";
+	public ArrayList<Consulta> getConsultas() {
+		return consultas;
 	}
 	
-	
+	public void addConsulta(Consulta c) {
+		this.consultas.add(c);
+	}
+
+	@Override
+	public String toString() {
+		return "Nombre Médico: " + this.getNya() + "        Especialidad: " + this.especialidad;
+	}
+
 }

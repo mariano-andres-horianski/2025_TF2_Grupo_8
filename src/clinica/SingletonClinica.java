@@ -1,21 +1,110 @@
 package clinica;
 
+import clinica.exceptions.*;
+import clinica.model.*;
+import java.util.HashMap;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 public class SingletonClinica {
-	public String nombre, direccion, telefono, ciudad;
-	private SingletonClinica instance;
+	private String nombre, direccion, telefono, ciudad;
+	private static SingletonClinica instance;
+	private HashMap<String, Paciente> pacientes;
+	private HashMap<String, IMedico> medicos;
+	// private ArrayList<Sala> salas; aún no implementado
+	private ArrayList<Paciente> listaEspera;
+	private ArrayList<Paciente> listaEnAtencion;
 
 	private SingletonClinica() {
 		ciudad = "Mar del Plata";
 		direccion = "Avenida Siempreviva 123";
 		telefono = "22300000";
 		nombre = "Clínica Colón";
+		pacientes = new HashMap<String, Paciente>();
+		medicos = new HashMap<String, IMedico>();
+
+		listaEspera = new ArrayList<Paciente>();
+		listaEnAtencion = new ArrayList<Paciente>();
 	}
 
-	public SingletonClinica getInstance() {
+	public static SingletonClinica getInstance() {
 		if (instance == null) {
-			this.instance = new SingletonClinica();
+			instance = new SingletonClinica();
 		}
 
-		return this.instance;
+		return instance;
 	}
+
+	public void registrarMedico(IMedico m) {
+		this.medicos.put(m.getDni(), m);
+	}
+
+	public void registrarPaciente(Paciente p) {
+		this.pacientes.put(p.getDni(), p);
+	}
+
+	public void addListaEspera(Paciente p) {
+		this.listaEspera.add(p);
+	}
+
+	public void removeListaEspera(Paciente p) {
+		this.listaEspera.remove(p);
+	}
+
+	public void addListaEnAtencion(Paciente p) {
+		this.listaEnAtencion.add(p);
+	}
+
+	public void removeListaEnAtencion(Paciente p) {
+		this.listaEnAtencion.remove(p);
+	}
+
+	public void ingresaPaciente(Paciente p) throws PacienteNotFoundException {
+		if (!pacientes.containsKey(p.getDni()))
+			throw new PacienteNotFoundException("Paciente no registrado");
+
+		addListaEspera(p);
+
+		// Falta implementar lo de las salas / patio
+	}
+
+	public void atiendePaciente(IMedico m, Paciente p) {
+		if (this.listaEspera.contains(p)) {
+			removeListaEspera(p);
+			// Habría que retirarlo también de la sala privada / patio
+
+			addListaEnAtencion(p);
+			p.setFechaIngreso(LocalDate.now());
+		}
+
+		Consulta c = new Consulta(m, p);
+		m.addConsulta(c);
+		p.addConsulta(c);
+
+	}
+
+	public Factura egresaPaciente(Paciente p) {
+		Factura f = new Factura(p);
+
+		removeListaEnAtencion(p);
+		
+		return f;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
 }

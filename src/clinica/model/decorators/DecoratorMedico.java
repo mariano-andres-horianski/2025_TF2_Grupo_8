@@ -1,5 +1,8 @@
 package clinica.model.decorators;
 
+import java.util.ArrayList;
+
+import clinica.model.Consulta;
 import clinica.model.Domicilio;
 import clinica.model.Especialidad;
 import clinica.model.IMedico;
@@ -44,6 +47,14 @@ public abstract class DecoratorMedico implements IMedico {
 		return this.encapsulado.getEspecialidad();
 	}
 
+	public ArrayList<Consulta> getConsultas() {
+		return this.encapsulado.getConsultas();
+	}
+	
+	public void addConsulta(Consulta c) {
+		this.encapsulado.addConsulta(c);
+	}
+	
 	@Override
 	public String toString() {
 		return "" + encapsulado;
