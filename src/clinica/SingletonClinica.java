@@ -1,6 +1,8 @@
 package clinica;
 
 import clinica.exceptions.*;
+import clinica.d.dispatch.*;
+
 import clinica.model.*;
 import java.util.HashMap;
 import java.time.LocalDate;
@@ -14,6 +16,9 @@ public class SingletonClinica {
 	// private ArrayList<Sala> salas; aún no implementado
 	private ArrayList<Paciente> listaEspera;
 	private ArrayList<Paciente> listaEnAtencion;
+	
+	private ArrayList<IPrioridad> patio;
+	private SalaEspera salaEspera;
 
 	private SingletonClinica() {
 		ciudad = "Mar del Plata";
@@ -25,6 +30,10 @@ public class SingletonClinica {
 
 		listaEspera = new ArrayList<Paciente>();
 		listaEnAtencion = new ArrayList<Paciente>();
+		
+		patio = new ArrayList<IPrioridad>();
+		salaEspera= new SalaEspera();
+		salaEspera.desocupar();
 	}
 
 	public static SingletonClinica getInstance() {
@@ -46,11 +55,18 @@ public class SingletonClinica {
 	public void addListaEspera(Paciente p) {
 		this.listaEspera.add(p);
 	}
-
+	
 	public void removeListaEspera(Paciente p) {
 		this.listaEspera.remove(p);
 	}
-
+	
+	public void addPatio(IPrioridad p) {
+		this.patio.add(p);
+	}
+	
+	public void removePatio(IPrioridad p) {
+		this.patio.remove(p);
+	}
 	public void addListaEnAtencion(Paciente p) {
 		this.listaEnAtencion.add(p);
 	}
@@ -65,13 +81,29 @@ public class SingletonClinica {
 
 		addListaEspera(p);
 
-		// Falta implementar lo de las salas / patio
+		if (!(salaEspera.isOcupacion())) 
+			salaEspera.ocuparSala(p);
+		else
+			if (!(p.prioridadSala(salaEspera.getPaciente()))) {
+				addPatio(salaEspera.getPaciente());
+				salaEspera.ocuparSala(p);
+			}
+			else
+				addPatio(p);
 	}
-
 	public void atiendePaciente(IMedico m, Paciente p) {
 		if (this.listaEspera.contains(p)) {
 			removeListaEspera(p);
-			// Habría que retirarlo también de la sala privada / patio
+			if (this.patio.contains(p))
+				removePatio(p);
+			else {
+				salaEspera.desocupar();
+				if (!patio.isEmpty()) {
+					salaEspera.ocuparSala(patio.get(0));
+					removePatio(salaEspera.getPaciente());
+				}
+				
+			}
 
 			addListaEnAtencion(p);
 			p.setFechaIngreso(LocalDate.now());

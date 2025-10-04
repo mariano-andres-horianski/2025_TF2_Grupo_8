@@ -1,10 +1,11 @@
 package clinica.model;
 
 import java.time.LocalDate;
+import clinica.d.dispatch.*;
 import java.util.ArrayList;
 
 
-public class Paciente extends Persona {
+public abstract class Paciente extends Persona implements IPrioridad{
 	private int nroHC;
 	private String rangoEtario;
 	private LocalDate fechaIngreso;

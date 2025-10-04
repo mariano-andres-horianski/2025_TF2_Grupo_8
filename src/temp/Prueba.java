@@ -17,6 +17,7 @@ public class Prueba {
 
 	            // ----------------- Creo médicos con Factory -----------------
 	            MedicoFactory factory = new MedicoFactory();
+	            PacienteFactory pacienteFactory = new PacienteFactory();
 	            IMedico medico1 = factory.crearMedico("111", "Carlitos", "MDQ", "2231111111", "Av JBJ", 742, 1001, "clinico", "residente", "doctorado");
 	            IMedico medico2 = factory.crearMedico("222", "Cacho", "MDQ", "2232222222", "Av Libertad", 123, 1002, "cirujano", "permanente");
 
@@ -25,7 +26,8 @@ public class Prueba {
 
 	            // ----------------- Creo paciente -----------------
 	            Domicilio domicilioPaciente = new Domicilio("Calle Falsa", 123);
-	            Paciente paciente1 = new Paciente("333", "Juan Pérez", "MDQ", "2233333333", domicilioPaciente, 1, "adulto");
+	            Paciente paciente1 = pacienteFactory.crearPaciente("333", "Juan Perez", "MDQ", "2233333333", domicilioPaciente, 1, "Mayor");
+
 
 	            clinica.registrarPaciente(paciente1);
 
