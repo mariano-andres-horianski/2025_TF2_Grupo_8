@@ -1,4 +1,4 @@
-package clinica;
+package clinica.habitaciones;
 import clinica.d.dispatch.*;
 	/**
 	 * Representa la sala de espera de la clinica 

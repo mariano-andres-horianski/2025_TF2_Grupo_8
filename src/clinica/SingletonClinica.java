@@ -2,6 +2,7 @@ package clinica;
 
 import clinica.exceptions.*;
 import clinica.d.dispatch.*;
+import clinica.habitaciones.*;
 
 import clinica.model.*;
 import java.util.HashMap;
