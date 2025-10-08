@@ -4,7 +4,7 @@ public class HabitacionTerapiaIntensiva implements IHabitacion {
     private static final double costoDia = 5000;
 
     @Override
-    public double calcularCosto(int dias) {
+    public double calcularCosto(long dias) {
         return Math.pow(costoDia, dias);
     }
 

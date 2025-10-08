@@ -1,6 +1,6 @@
 package clinica.habitaciones;
 
 public interface IHabitacion {
-    double calcularCosto(int dias);
+    double calcularCosto(long dias);
     String getTipo();
 }

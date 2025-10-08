@@ -4,7 +4,7 @@ public class HabitacionCompartida implements IHabitacion {
     private static final double costoDia = 1000; 
     
     @Override
-    public double calcularCosto(int dias) {
+    public double calcularCosto(long dias) {
         return dias * costoDia;
     }
 

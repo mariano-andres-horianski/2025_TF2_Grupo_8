@@ -14,7 +14,7 @@ public class SingletonClinica {
 	private static SingletonClinica instance;
 	private HashMap<String, Paciente> pacientes;
 	private HashMap<String, IMedico> medicos;
-	// private ArrayList<Sala> salas; aún no implementado
+	private HashMap<Paciente, IHabitacion> internados;
 	private ArrayList<Paciente> listaEspera;
 	private ArrayList<Paciente> listaEnAtencion;
 	
@@ -25,9 +25,10 @@ public class SingletonClinica {
 		ciudad = "Mar del Plata";
 		direccion = "Avenida Siempreviva 123";
 		telefono = "22300000";
-		nombre = "Clínica Colón";
+		nombre = "Clinica Colon";
 		pacientes = new HashMap<String, Paciente>();
 		medicos = new HashMap<String, IMedico>();
+		internados = new HashMap<>();
 
 		listaEspera = new ArrayList<Paciente>();
 		listaEnAtencion = new ArrayList<Paciente>();
@@ -117,11 +118,17 @@ public class SingletonClinica {
 	}
 
 	public Factura egresaPaciente(Paciente p) {
-		Factura f = new Factura(p);
-
-		removeListaEnAtencion(p);
-		
-		return f;
+		IHabitacion h = internados.get(p); //si no fue internado retorna null
+        Factura f = new Factura(p, h);
+        internados.remove(p);
+        removeListaEnAtencion(p);
+        return f;
+	}
+	
+	public void internaPaciente(Paciente paciente,IHabitacion habitacion) throws PacienteNotFoundException{
+		if (!pacientes.containsKey(paciente.getDni()))
+			throw new PacienteNotFoundException("Paciente no registrado");
+		internados.put(paciente, habitacion);
 	}
 
 	public String getNombre() {

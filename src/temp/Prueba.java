@@ -3,7 +3,7 @@ package temp;
 import clinica.exceptions.*;
 import clinica.factories.*;
 import clinica.model.*;
-
+import clinica.habitaciones.*;
 import java.time.LocalDate;
 
 import clinica.*;
@@ -12,6 +12,9 @@ public class Prueba {
 
 	 public static void main(String[] args) {
 	        try {
+	        	
+	        	HabitacionFactory habitacionFactory=new HabitacionFactory();
+	        	IHabitacion habitacion1=habitacionFactory.crearHabitacion("Privada");
 	            // ----------------- Inicializo clínica -----------------
 	            SingletonClinica clinica = SingletonClinica.getInstance();
 
@@ -38,7 +41,7 @@ public class Prueba {
 	            clinica.atiendePaciente(medico1, paciente1);
 	            clinica.atiendePaciente(medico2, paciente1);
 	            paciente1.setFechaIngreso(LocalDate.of(2025, 9, 03));  // Pruebo fecha de ingreso hace un mes
-
+	            clinica.internaPaciente(paciente1,habitacion1);
 	            // ----------------- Egreso paciente y genero factura -----------------
 	            Factura factura = clinica.egresaPaciente(paciente1);
 

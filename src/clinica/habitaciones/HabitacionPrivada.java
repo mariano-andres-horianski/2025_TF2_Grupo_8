@@ -4,7 +4,7 @@ public class HabitacionPrivada implements IHabitacion {
     private static final double costoDia = 2000; // podés ajustar
 
     @Override
-    public double calcularCosto(int dias) {
+    public double calcularCosto(long dias) {
     	double costo=0;
         if (dias == 1) {
             costo=costoDia;
