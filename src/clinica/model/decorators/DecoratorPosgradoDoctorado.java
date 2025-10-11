@@ -2,6 +2,10 @@ package clinica.model.decorators;
 
 import clinica.model.IMedico;
 
+/**
+ * Decorator que le da un doctorado a un médico
+ * <p>Añade 10% al honorario del médico.</p>
+ */
 public class DecoratorPosgradoDoctorado extends DecoratorPosgrado {
 
 	public DecoratorPosgradoDoctorado(IMedico encapsulado) {

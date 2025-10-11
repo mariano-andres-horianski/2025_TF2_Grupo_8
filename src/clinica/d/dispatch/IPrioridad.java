@@ -9,9 +9,28 @@ package clinica.d.dispatch;
 	 */
 
 public interface IPrioridad{
+	
+	/**
+	 * Evalua si el paciente pasado por parámetro tiene prioridad por sobre el que está en la sala
+	 * <p>El método delegará la evaluación en el argumento implementando así el doble dispatch</p>
+	 * @param paciente
+	 * @return verdadero si este paciente tiene prioridad y falso si no la tiene
+	 */
 	public boolean prioridadSala(IPrioridad paciente);
+	/**
+	 * Compara la prioridad de este paciente con la de un niño
+	 * @return verdadero si el que compara es un mayor
+	 */
 	public boolean compararConNino();
+	/**
+	 * Compara la prioridad de este paciente con la de un joven
+	 * @return verdadero si el que compara es un niño
+	 */
 	public boolean compararConJoven();
+	/**
+	 * Compara la prioridad de este paciente con la de un niño
+	 * @return verdadero si el que compara es un joven
+	 */
 	public boolean compararConMayor();
 }
 

@@ -1,5 +1,7 @@
 package clinica.model;
-
+/**
+ * Representa la especialidad de un médico
+ */
 public abstract class Especialidad {
 	private String nombre; // de la especialidad
 

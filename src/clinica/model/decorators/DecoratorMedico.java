@@ -3,7 +3,9 @@ package clinica.model.decorators;
 import clinica.model.Domicilio;
 import clinica.model.Especialidad;
 import clinica.model.IMedico;
-
+/**
+ * Decorator que permite obtener los datos del médico
+ */
 public abstract class DecoratorMedico implements IMedico {
 	protected IMedico encapsulado;
 
