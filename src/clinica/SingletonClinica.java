@@ -52,6 +52,9 @@ public class SingletonClinica {
 	
 	/** Ambulancia */
 	private Ambulancia ambulancia;
+	
+	/** Operario */
+	private Operario operario;
 
 	private SingletonClinica() {
 		ciudad = "Mar del Plata";
@@ -79,6 +82,7 @@ public class SingletonClinica {
 		consultasPorMedico = new HashMap<>();
 		
 		ambulancia = new Ambulancia();
+		operario = new Operario(this);
 	}
 
 	public static SingletonClinica getInstance() {
@@ -657,6 +661,11 @@ public class SingletonClinica {
 	public Ambulancia getAmbulancia() {
 		return ambulancia;
 	}
+
+	public Operario getOperario() {
+		return operario;
+	}
+	
 	
 
 }
