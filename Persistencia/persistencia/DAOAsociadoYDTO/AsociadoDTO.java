@@ -1,24 +1,18 @@
-package persistencia;
+package persistencia.DAOAsociadoYDTO;
 
 import java.io.Serializable;
 
 /**
  * DTO que representa el registro en la tabla 'asociados'.
+ * "desmenuza" los atributos de un Asociado para poder utilizarlos en el DAO
  */
 public class AsociadoDTO implements Serializable{
-    private int id;
     private String dni;
     private String nya;
     private String ciudad;
     private String telefono;
     private String domicilioStr;
 
-    public int getId() {
-    	return id; 
-    }
-    public void setId(int id) {
-    	this.id = id; 
-    }
     public String getDni() { 
     	return dni; 
     }
