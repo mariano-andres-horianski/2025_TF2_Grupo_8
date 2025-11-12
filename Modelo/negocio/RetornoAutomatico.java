@@ -16,7 +16,7 @@ public class RetornoAutomatico implements Runnable {
                 e.printStackTrace();
             }
 
-            System.out.println("Evento: Retorno automático solicitado por el sistema");
+            System.out.println("Evento: Retorno automatico solicitado por el sistema");
             ambulancia.retornoAutomatico();
         }
     }

@@ -21,8 +21,8 @@ public class Asociado extends Persona implements Runnable {
         while (clinica.isSimulacionActiva()) {
 
             int accion = random.nextInt(2); 
-            // 0 = atención domicilio
-            // 1 = traslado clínica
+            // 0 = atencion domicilio
+            // 1 = traslado clinica
             
             switch (accion) {
                 case 0:

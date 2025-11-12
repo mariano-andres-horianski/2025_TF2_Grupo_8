@@ -156,18 +156,13 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      * </ul>
      *
      * @param a AsociadoDTO a insertar
-     * @throws DatoInvalidoException si 'a' es nulo o el DNI es nulo/vacío
      * @throws AsociadoExistenteException si ya existe un asociado con ese DNI
      */
     
     @Override
-    public void agregar(AsociadoDTO a) throws DatoInvalidoException, AsociadoExistenteException {
+    public void agregar(AsociadoDTO a) throws AsociadoExistenteException {
     	assert a != null : "Se pide agregar asociado no nulo";
         assert a.getDni() != null && !a.getDni().trim().isEmpty() : "DNI no debe ser nulo o vacío";
-        if (a == null)
-            throw new DatoInvalidoException("Datos de asociado inválidos.");
-        if (a.getDni() == null || a.getDni().trim().isEmpty())
-            throw new DatoInvalidoException("DNI inválido.");
         try {
 	        String sql = "INSERT INTO asociados (dni, nya, ciudad, telefono, domicilioStr) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement ps = bd.getConnection().prepareStatement(sql);
@@ -205,14 +200,11 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      * </ul>
      *
      * @param dni DNI del asociado a eliminar
-     * @throws DatoInvalidoException si el DNI es nulo o vacío
      * @throws AsociadoNotFoundException si no existe asociado con ese DNI
      */
     @Override
-    public void eliminarPorDni(String dni) throws DatoInvalidoException, AsociadoNotFoundException {
+    public void eliminarPorDni(String dni) throws AsociadoNotFoundException {
     	assert dni != null && !dni.trim().isEmpty() : "DNI para eliminar no debe ser nulo o vacío";
-        if (dni == null || dni.trim().isEmpty())
-            throw new DatoInvalidoException("DNI inválido.");
         try {
 	        String sql = "DELETE FROM asociados WHERE dni = ?";
 	        PreparedStatement ps = bd.getConnection().prepareStatement(sql);

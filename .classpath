@@ -4,6 +4,8 @@
 	<classpathentry kind="src" path="Modelo"/>
 	<classpathentry kind="src" path="Patrones"/>
 	<classpathentry kind="src" path="Persistencia"/>
+	<classpathentry kind="src" path="Controlador"/>
+	<classpathentry kind="src" path="Vista"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Jazmi/OneDrive/Escritorio/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33/mysql-connector-j-8.0.33.jar"/>
 	<classpathentry kind="output" path="bin"/>
