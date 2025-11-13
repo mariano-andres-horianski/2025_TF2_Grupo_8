@@ -6,12 +6,24 @@ import persistencia.Excepciones.*;
 import persistencia.DAOAsociadoYDTO.*;
 import persistencia.BasedeDatos.*;
 
-public class PruebaConexion {
+public class PruebaActualizar {
 
     public static void main(String[] args) {
-        BDConexion bd;
+    	BDConexion bd;
         try {
-            bd = BDConexion.getInstance();
+        	// Obtener la conexión
+        	bd = BDConexion.getInstance();
+
+        	// Borra la tabla si existe (para comenzar limpio)
+        	try {
+        		bd.getSentencia().executeUpdate("DROP TABLE IF EXISTS asociados");
+        		System.out.println("Tabla 'asociados' borrada (si existía).");
+        	} catch (SQLException e) {
+        		System.out.println("No se pudo borrar la tabla 'asociados' o no existía:");
+        		e.printStackTrace();
+        	}
+
+            // Crear el DAO (el constructor recreará la tabla si no existe)
             IAsociadoDAO dao = new AsociadoDAOMySQL(bd);
             
             // Crear algunos asociados de ejemplo
@@ -36,11 +48,20 @@ public class PruebaConexion {
             System.out.println("\n---- Listando todos ----");
             imprimirMapa(dao.obtenerTodosMap());
 
-            System.out.println("\n---- Eliminando el DNI 111 ----");
-            dao.eliminarPorDni("111");
+            // Modificar uno de los asociados (por ejemplo modificar ciudad y teléfono de 222)
+            AsociadoDTO a2mod = new AsociadoDTO();
+            a2mod.setDni("222"); // identificador
+            a2mod.setNya("Carlos Gómez"); // puede mantenerse igual o cambiar
+            a2mod.setCiudad("Mar del Plata"); // nueva ciudad
+            a2mod.setTelefono("2269998888"); // nuevo teléfono
+            a2mod.setDomicilioStr("San Martín 456"); // misma dirección
 
-            System.out.println("\n---- Listando nuevamente ----");
+            System.out.println("\n---- Actualizando asociado DNI 222 ----");
+            dao.actualizar(a2mod);
+
+            System.out.println("\n---- Listando luego de la actualización ----");
             imprimirMapa(dao.obtenerTodosMap());
+
             bd.close();
         } catch (DatoInvalidoException | AsociadoExistenteException | 
                  AsociadoNotFoundException | SQLException e) {
@@ -53,7 +74,7 @@ public class PruebaConexion {
             System.out.println("(sin registros)");
         } else {
             for (AsociadoDTO a : mapa.values()) {
-                System.out.println(a.getDni() + " - " + a.getNya() + " - " + a.getCiudad());
+                System.out.println(a.getDni() + " - " + a.getNya() + " - " + a.getCiudad() + " - " + a.getTelefono());
             }
         }
     }

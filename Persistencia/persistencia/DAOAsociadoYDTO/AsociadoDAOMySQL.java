@@ -5,7 +5,7 @@ import java.util.HashMap;
 import persistencia.BasedeDatos.*;
 import persistencia.Excepciones.*;
 /**
- * Implementación JDBC del DAO para AsociadoDTO.
+ * Implementaciï¿½n JDBC del DAO para AsociadoDTO.
  * Crea la tabla si no existe en el constructor.
  */
 public class AsociadoDAOMySQL implements IAsociadoDAO {
@@ -22,20 +22,20 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>this.bd referenciará al objeto BDConexion pasado.</li>
-     *   <li>Se intentará crear la tabla "asociados" si no existe.</li>
+     *   <li>this.bd referenciarï¿½ al objeto BDConexion pasado.</li>
+     *   <li>Se intentarï¿½ crear la tabla "asociados" si no existe.</li>
      * </ul>
      *
-     * <p>Invariante tras la ejecución: this.bd != null.
+     * <p>Invariante tras la ejecuciï¿½n: this.bd != null.
      *
-     * @param bd instancia válida de BDConexion (no nula)
+     * @param bd instancia vï¿½lida de BDConexion (no nula)
      */
 
     public AsociadoDAOMySQL(BDConexion bd) {
     	assert bd != null : "BDConexion pasado al constructor no debe ser null";
     	this.bd=bd;
     	crearTablaSiNoExiste();
-    	assert this.bd != null : "Invariante:this.bd debe quedar no nulo tras la construcción";
+    	assert this.bd != null : "Invariante:this.bd debe quedar no nulo tras la construcciï¿½n";
     }
     
     /**
@@ -43,25 +43,25 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      *
      * <p>Precondiciones:
      * <ul>
-     *   <li>El método BDConexion.getInstance() puede lanzar SQLException si la conexión no está disponible.</li>
+     *   <li>El mï¿½todo BDConexion.getInstance() puede lanzar SQLException si la conexiï¿½n no estï¿½ disponible.</li>
      * </ul>
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>this.bd referenciará a la instancia retornada por BDConexion.getInstance().</li>
-     *   <li>Se intentará crear la tabla "asociados" si no existe.</li>
+     *   <li>this.bd referenciarï¿½ a la instancia retornada por BDConexion.getInstance().</li>
+     *   <li>Se intentarï¿½ crear la tabla "asociados" si no existe.</li>
      * </ul>
      *
-     * <p>Invariante tras la ejecución: this.bd != null (si no se lanzó SQLException).</p>
+     * <p>Invariante tras la ejecuciï¿½n: this.bd != null (si no se lanzï¿½ SQLException).</p>
      *
-     * @throws SQLException si no se puede obtener la conexión/instancia de BDConexion
+     * @throws SQLException si no se puede obtener la conexiï¿½n/instancia de BDConexion
      */
     
     public AsociadoDAOMySQL() throws SQLException {
         this.bd = BDConexion.getInstance();
-        assert this.bd != null : "BDConexion.getInstance() devolvió null";
+        assert this.bd != null : "BDConexion.getInstance() devolviï¿½ null";
         crearTablaSiNoExiste();
-        assert this.bd != null : "Invariante: this.bd debe quedar no nulo tras la construcción por defecto";
+        assert this.bd != null : "Invariante: this.bd debe quedar no nulo tras la construcciï¿½n por defecto";
     }
 
     /**
@@ -69,12 +69,12 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      *
      * <p>Precondiciones:
      * <ul>
-     *   <li>this.bd != null y bd.getSentencia() debe devolver una sentencia válida.</li>
+     *   <li>this.bd != null y bd.getSentencia() debe devolver una sentencia vï¿½lida.</li>
      * </ul>
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>Se habrá ejecutado la sentencia CREATE TABLE IF NOT EXISTS; si ocurre SQLException se imprime el stacktrace.</li>
+     *   <li>Se habrï¿½ ejecutado la sentencia CREATE TABLE IF NOT EXISTS; si ocurre SQLException se imprime el stacktrace.</li>
      * </ul>
      */
     
@@ -102,16 +102,16 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      * <p>Precondiciones:
      * <ul>
      *   <li>this.bd != null</li>
-     *   <li>La conexión de bd está operativa para realizar consultas.</li>
+     *   <li>La conexiï¿½n de bd estï¿½ operativa para realizar consultas.</li>
      * </ul>
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>Devuelve un HashMap (puede estar vacío) con una entrada por cada fila de la tabla 'asociados'.</li>
-     *   <li>Cada AsociadoDTO disponible tendrá su dni, nya, ciudad, telefono y domicilioStr seteados a partir del ResultSet.</li>
+     *   <li>Devuelve un HashMap (puede estar vacï¿½o) con una entrada por cada fila de la tabla 'asociados'.</li>
+     *   <li>Cada AsociadoDTO disponible tendrï¿½ su dni, nya, ciudad, telefono y domicilioStr seteados a partir del ResultSet.</li>
      * </ul>
      *
-     * <p>Invariante durante la ejecución: no modifica la tabla 'asociados'.</p>
+     * <p>Invariante durante la ejecuciï¿½n: no modifica la tabla 'asociados'.</p>
      *
      * @return HashMap<String, AsociadoDTO> con los asociados existentes (clave = dni). Nunca nulo.
      */
@@ -131,7 +131,7 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
                 a.setCiudad(rs.getString("ciudad"));
                 a.setTelefono(rs.getString("telefono"));
                 a.setDomicilioStr(rs.getString("domicilioStr"));
-                assert a.getDni() != null : "DNI de un registro no debería ser null";
+                assert a.getDni() != null : "DNI de un registro no deberï¿½a ser null";
                 mapa.put(a.getDni(), a);
             }
         } catch(SQLException e) {
@@ -162,7 +162,7 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
     @Override
     public void agregar(AsociadoDTO a) throws AsociadoExistenteException {
     	assert a != null : "Se pide agregar asociado no nulo";
-        assert a.getDni() != null && !a.getDni().trim().isEmpty() : "DNI no debe ser nulo o vacío";
+        assert a.getDni() != null && !a.getDni().trim().isEmpty() : "DNI no debe ser nulo o vacï¿½o";
         try {
 	        String sql = "INSERT INTO asociados (dni, nya, ciudad, telefono, domicilioStr) VALUES (?, ?, ?, ?, ?)";
 	        PreparedStatement ps = bd.getConnection().prepareStatement(sql);
@@ -177,7 +177,7 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
             String sqlState = e.getSQLState() == null ? "" : e.getSQLState();
             if (msg.contains("duplicate") || (sqlState != null && sqlState.startsWith("23"))) {
                 // 23 indica un codigo de la excepcion que refiere a una violacion en la integridad de la base de datos
-                // lanza excepción de dominio en lugar de SQLException para duplicados
+                // lanza excepciï¿½n de dominio en lugar de SQLException para duplicados
                 throw new AsociadoExistenteException("Ya existe un asociado con ese DNI.");
             }
             else
@@ -195,8 +195,8 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>Si existía un asociado con el DNI, queda eliminado de la tabla.</li>
-     *   <li>Si no existía, se lanza AsociadoNotFoundException.</li>
+     *   <li>Si existï¿½a un asociado con el DNI, queda eliminado de la tabla.</li>
+     *   <li>Si no existï¿½a, se lanza AsociadoNotFoundException.</li>
      * </ul>
      *
      * @param dni DNI del asociado a eliminar
@@ -204,14 +204,14 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      */
     @Override
     public void eliminarPorDni(String dni) throws AsociadoNotFoundException {
-    	assert dni != null && !dni.trim().isEmpty() : "DNI para eliminar no debe ser nulo o vacío";
+    	assert dni != null && !dni.trim().isEmpty() : "DNI para eliminar no debe ser nulo o vacï¿½o";
         try {
 	        String sql = "DELETE FROM asociados WHERE dni = ?";
 	        PreparedStatement ps = bd.getConnection().prepareStatement(sql);
 	        ps.setString(1, dni);
 	        int afectados = ps.executeUpdate();
 	        if (afectados == 0) {
-	            // lanzar excepcion si no existía
+	            // lanzar excepcion si no existï¿½a
 	            throw new AsociadoNotFoundException("No existe un asociado con ese DNI.");
 	        }
         } catch(SQLException e) {
@@ -225,16 +225,16 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      * <p>Precondiciones:
      * <ul>
      *   <li>mapa puede ser nulo; si no es nulo, sus valores (AsociadoDTO) pueden contener entradas nulas que se ignoran.</li>
-     *   <li>this.bd != null y la conexión es usable para transacciones.</li>
+     *   <li>this.bd != null y la conexiï¿½n es usable para transacciones.</li>
      * </ul>
      *
      * <p>Postcondiciones (si mapa != null):
      * <ul>
-     *   <li>La tabla 'asociados' primero se vacía y despues se actualiza con los nuevos datos.</li>
-     *   <li>En caso de error durante la operación por lotes, se intenta rollback y la tabla permanece en el estado anterior al commit (salvo que el rollback falle).</li>
+     *   <li>La tabla 'asociados' primero se vacï¿½a y despues se actualiza con los nuevos datos.</li>
+     *   <li>En caso de error durante la operaciï¿½n por lotes, se intenta rollback y la tabla permanece en el estado anterior al commit (salvo que el rollback falle).</li>
      * </ul>
      *
-     * Se preserva el autoCommit original de la conexión tras finalizar (finally).
+     * Se preserva el autoCommit original de la conexiï¿½n tras finalizar (finally).
      * 
      * @param mapa Mapa con los AsociadoDTO a persistir (clave = dni). Puede ser null, en cuyo caso no hace nada.
      */
@@ -247,7 +247,7 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
             try {
             	origAuto = conn.getAutoCommit();
                 conn.setAutoCommit(false);
-                assert !conn.getAutoCommit() : "Se espera autoCommit == false después de setAutoCommit(false)";
+                assert !conn.getAutoCommit() : "Se espera autoCommit == false despuï¿½s de setAutoCommit(false)";
                 this.bd.getSentencia().executeUpdate("DELETE FROM asociados"); // elimina el contenido de la tabla
                 String sql = "INSERT INTO asociados (dni, nya, ciudad, telefono, domicilioStr) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement ps = conn.prepareStatement(sql);
@@ -290,7 +290,7 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
      *
      * <p>Postcondiciones:
      * <ul>
-     *   <li>La tabla 'asociados' queda vacía si la operación es exitosa; si ocurre SQLException se imprime el stacktrace.</li>
+     *   <li>La tabla 'asociados' queda vacï¿½a si la operaciï¿½n es exitosa; si ocurre SQLException se imprime el stacktrace.</li>
      * </ul>
      */
     
@@ -303,5 +303,49 @@ public class AsociadoDAOMySQL implements IAsociadoDAO {
 			e.printStackTrace();
 		}
     }
+    
+    /**
+     * Actualiza un asociado existente identificado por su DNI.
+     *
+     * <p>Precondiciones:
+     * <ul>
+     *   <li>a != null</li>
+     *   <li>a.getDni() != null && !a.getDni().trim().isEmpty()</li>
+     * </ul>
+     *
+     * <p>Postcondiciones:
+     * <ul>
+     *   <li>Si existÃ­a un asociado con ese DNI, sus campos nya, ciudad, telefono y domicilioStr quedan actualizados.</li>
+     *   <li>Si no existÃ­a un asociado con ese DNI, se lanza AsociadoNotFoundException.</li>
+     * </ul>
+     *
+     * <p>Invariante durante/tras la ejecuciÃ³n: this.bd != null.</p>
+     *
+     * @param a AsociadoDTO con los datos a actualizar (identificado por dni)
+     * @throws AsociadoNotFoundException si no existe asociado con ese DNI
+     */
+    @Override
+    public void actualizar(AsociadoDTO a) throws AsociadoNotFoundException {
+        assert a != null : "Asociado a actualizar no debe ser null";
+        assert a.getDni() != null && !a.getDni().trim().isEmpty() : "DNI no debe ser nulo o vacÃ­o";
+        assert this.bd != null : "bd no debe ser null al actualizar";
+        try {
+            String sql = "UPDATE asociados SET nya = ?, ciudad = ?, telefono = ?, domicilioStr = ? WHERE dni = ?";
+            PreparedStatement ps = bd.getConnection().prepareStatement(sql);
+            ps.setString(1, a.getNya());
+            ps.setString(2, a.getCiudad());
+            ps.setString(3, a.getTelefono());
+            ps.setString(4, a.getDomicilioStr());
+            ps.setString(5, a.getDni());
+            int afectados = ps.executeUpdate();
+            if (afectados == 0) {
+                // no existÃ­a el registro a actualizar
+                throw new AsociadoNotFoundException("No existe un asociado con ese DNI.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
         
 }

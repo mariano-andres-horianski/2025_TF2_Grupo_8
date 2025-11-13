@@ -11,7 +11,7 @@ public class BDConexion {
     private Connection conn;
     private Statement sentencia;
 
-    private String baseDatos = "jdbc:mariadb://localhost:3308/Grupo_8";
+    private String baseDatos = "jdbc:mysql://localhost:3306/Grupo_8";
     private String usuario = "progra_c";
     private String password = "progra_c";
     
@@ -26,7 +26,7 @@ public class BDConexion {
     
     private BDConexion() {
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
+        	Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (Exception e) {
             System.out.println("No se pudo cargar el puente JDBC-ODBC");
             return;

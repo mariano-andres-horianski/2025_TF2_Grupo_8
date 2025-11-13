@@ -16,4 +16,5 @@ public interface IAsociadoDAO {
     void eliminarPorDni(String dni) throws DatoInvalidoException, AsociadoNotFoundException;
     void guardarTodos(HashMap<String, AsociadoDTO> mapa);
     void vaciarTabla();
+    void actualizar(AsociadoDTO a) throws AsociadoNotFoundException;
 }
