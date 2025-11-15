@@ -1,10 +1,13 @@
 package vista.formularios;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import ControladorAsociados.ActionListenerAsociados;
+import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 
 public class FormularioCreateAsociado extends JDialog {
 
@@ -75,6 +78,19 @@ public class FormularioCreateAsociado extends JDialog {
         cancelButton = new JButton("Cancelar");
         cancelButton.setActionCommand("Cancel");
         buttonPane.add(cancelButton);
+        
+        okButton.addActionListener(e -> {
+        	AsociadoDTO socio = new AsociadoDTO();
+        	socio.setDni(textDNI.getText());
+            socio.setNya(textNYA.getText());
+            socio.setCiudad(textCiudad.getText());
+            socio.setTelefono(textTelefono.getText());
+            socio.setDomicilioStr(textDomicilio.getText());
+            controlador.actionPerformed(new ActionEvent(socio,0,"CREATE"));
+            dispose();
+        });
+
+        cancelButton.addActionListener(e -> dispose());
     }
 
     // Getters (mismos nombres que antes)

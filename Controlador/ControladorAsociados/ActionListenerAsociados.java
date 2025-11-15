@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -17,11 +18,11 @@ import persistencia.Excepciones.AsociadoNotFoundException;
 import persistencia.Excepciones.DatoInvalidoException;
 import vista.JframePrincipal.VentanaPrincipal;
 import vista.PanelCentral.PanelAsociados;
+import vista.formularios.ConfirmDialog;
 import vista.formularios.FormularioCreateAsociado;
 import vista.formularios.FormularioUpdateAsociado;
 
 public class ActionListenerAsociados implements ActionListener {
-	private FormularioCreateAsociado formulario; //va a haber un formulario distinto para cada accion, por lo que se extraeran distintos datos de cada uno
 	private VentanaPrincipal ventanaPrincipal;
 	private AsociadoDAOMySQL BD;
 	
@@ -33,9 +34,6 @@ public class ActionListenerAsociados implements ActionListener {
 		}
 	}
 	
-	public FormularioCreateAsociado getFormulario() {
-		return formulario;
-	}
 
 	
 	public void setVentanaPrincipal(VentanaPrincipal ventanaPrincipal) {
@@ -43,27 +41,35 @@ public class ActionListenerAsociados implements ActionListener {
 		this.ventanaPrincipal.setControladorAsociados(this);
 		this.ventanaPrincipal.setVisible(true);
 		this.ventanaPrincipal.getBoton_navegacionAsociados().addMouseListener(new ReadListenerAsociados(this));
-	}
+		this.ventanaPrincipal.getBoton_navegacionInicio().addActionListener(this);
 
-	public void setFormulario(FormularioCreateAsociado formulario) {
-		this.formulario = formulario;
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand().toUpperCase();
-		
+		HashMap<String, AsociadoDTO> asociados;
+		PanelAsociados listado;
+		JPanel panelCentral;
+		CardLayout cl;
 		switch(comando) {
+			case "INICIO":
+				JPanel panelInicio = new JPanel();
+			    panelInicio.add(new JLabel("Bienvenido al sistema"));
+
+			    panelCentral = ventanaPrincipal.getPanel_Central();
+
+			    panelCentral.add(panelInicio, "PANEL_INICIO");
+
+			    cl = (CardLayout) panelCentral.getLayout();
+			    cl.show(panelCentral, "PANEL_INICIO");
+
+			    panelCentral.revalidate();
+			    panelCentral.repaint();
+			    break;
+
 			case "CREATE"://el usuario hizo click en "guardar" en el formulario de Agregar asociado
-				AsociadoDTO nuevoSocio = new AsociadoDTO();
-				
-				//Tendria que crear un AsociadoDTO en la vista y mandarlo y no guardar el formulario aca
-				nuevoSocio.setNya(this.formulario.getTextNYA().getText());
-				nuevoSocio.setDni(this.formulario.getTextDNI().getText());
-				nuevoSocio.setCiudad(this.formulario.getTextCiudad().getText());
-				nuevoSocio.setTelefono(this.formulario.getTextTelefono().getText());
-				nuevoSocio.setDomicilioStr(this.formulario.getTextDomicilio().getText());
+				AsociadoDTO nuevoSocio = (AsociadoDTO)e.getSource();
 				
 				try {
 					BD.agregar(nuevoSocio);
@@ -71,19 +77,22 @@ public class ActionListenerAsociados implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				asociados = BD.obtenerTodosMap();
+				listado = (PanelAsociados)this.ventanaPrincipal.getPanel_Central();
+				listado.refrescarTabla(asociados);
 				break;
 			case "READ"://el usuario hizo click en el boton "asociados" para modificar el card layout, no hay pop up
 				//Modificar el panel central de la ventana principal para que contenga una lista de asociados
-				HashMap<String, AsociadoDTO> asociados= BD.obtenerTodosMap();
-				JPanel panelCentral = this.ventanaPrincipal.getPanel_Central();
-				PanelAsociados listado = new PanelAsociados(asociados,this);//me falta pasarle los listeners
+				asociados= BD.obtenerTodosMap();
+				panelCentral = this.ventanaPrincipal.getPanel_Central();
+				listado = new PanelAsociados(asociados,this);//me falta pasarle los listeners
 				this.ventanaPrincipal.setPanel_Central(listado);
 				listado.getBtnAgregar().addMouseListener(new CreateListenerAsociados(this));
 				
 				String nombrePanel = "PANEL_ASOCIADOS";
 	            panelCentral.add(listado, nombrePanel);
 	            ///Creo un panel de cero y lo guardo en el panel central
-	            CardLayout cl = (CardLayout) (panelCentral.getLayout());
+	            cl = (CardLayout) (panelCentral.getLayout());
 	            cl.show(panelCentral, nombrePanel);
 	            panelCentral.revalidate();
 	            panelCentral.repaint();
@@ -96,9 +105,9 @@ public class ActionListenerAsociados implements ActionListener {
 				} catch (AsociadoNotFoundException e1) {
 					e1.printStackTrace();
 				}
-				HashMap<String,AsociadoDTO> nuevos = BD.obtenerTodosMap();
-				PanelAsociados panelAsociados = (PanelAsociados)this.ventanaPrincipal.getPanel_Central();
-			    panelAsociados.refrescarTabla(nuevos);
+				asociados = BD.obtenerTodosMap();
+				listado = (PanelAsociados)this.ventanaPrincipal.getPanel_Central();
+				listado.refrescarTabla(asociados);
 				
 				break;
 			case "DELETE":
@@ -111,6 +120,9 @@ public class ActionListenerAsociados implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				asociados = BD.obtenerTodosMap();
+				listado = (PanelAsociados)this.ventanaPrincipal.getPanel_Central();
+				listado.refrescarTabla(asociados);
 				break;
 			case "SELECT_UPDATE":
 				FormularioUpdateAsociado form = new FormularioUpdateAsociado((AsociadoDTO)e.getSource(),this);
@@ -119,7 +131,13 @@ public class ActionListenerAsociados implements ActionListener {
 	            
 				break;
 			case "SELECT_DELETE":
-				//Lanzar un pop up que pregunte al usuario si esta seguro de eliminar al asociado
+				ConfirmDialog popUpEliminar = new ConfirmDialog(null,
+					    "¿Está seguro que desea eliminar este asociado?",
+					    "DELETE",
+					    this,
+					    (AsociadoDTO)e.getSource()
+					);
+				popUpEliminar.setVisible(true);
 				break;
 		}
 		

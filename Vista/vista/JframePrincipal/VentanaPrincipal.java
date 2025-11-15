@@ -49,10 +49,7 @@ public class VentanaPrincipal extends JFrame {
 	private ActionListenerAsociados controladorAsociados;
 	private JButton boton_navegacionAsociados;
 	private JButton boton_navegacionInicio;
-	private JButton boton_navegacionPacientes;
 	private JButton boton_navegacionAtencion;
-	private JButton btnAgregarPaciente;
-	private JButton btnFacturacion;
 	private JPanel panel_Central;
 
 	/**
@@ -75,8 +72,11 @@ public class VentanaPrincipal extends JFrame {
 		return panel_Central;
 	}
 
-	public void setPanel_Central(JPanel panel_Central) {
-		this.panel_Central = panel_Central;
+	public void setPanel_Central(JPanel nuevo) {
+		panel_Central.removeAll();
+	    panel_Central.add(nuevo, "ACTUAL");
+	    panel_Central.revalidate();
+	    panel_Central.repaint();
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class VentanaPrincipal extends JFrame {
 	public VentanaPrincipal() {
 		setTitle("Sistema - Gestion de Clinica");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 732, 384);
+		setBounds(100, 100, 800, 450);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -110,7 +110,7 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		panel_Central = new JPanel();
+		panel_Central = new JPanel(new CardLayout());
 		contentPane.add(panel_Central, BorderLayout.CENTER);
 		panel_Central.setLayout(new CardLayout(0, 0));
 		//
@@ -139,34 +139,6 @@ public class VentanaPrincipal extends JFrame {
 		
 		JLabel lblAsociadosRegistrados = new JLabel("   Asociados Registrados");
 		panel_AsocRegistrados.add(lblAsociadosRegistrados, BorderLayout.SOUTH);
-		
-		JPanel panel_PacientesEnEspera = new JPanel();
-		panel_PacientesEnEspera.setPreferredSize(new Dimension(80, 30));
-		panel_PacientesEnEspera.setBackground(Color.WHITE);
-		panel_info.add(panel_PacientesEnEspera);
-		panel_PacientesEnEspera.setLayout(new BorderLayout(0, 0));
-		
-		JLabel label_numAsocRegistrados_1 = new JLabel("  00");
-		label_numAsocRegistrados_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_PacientesEnEspera.add(label_numAsocRegistrados_1, BorderLayout.CENTER);
-		
-		JLabel label_PacientesEnEspera = new JLabel("   Pacientes En Espera");
-		panel_PacientesEnEspera.add(label_PacientesEnEspera, BorderLayout.SOUTH);
-		
-		JPanel panel_AsocRegistrados_2 = new JPanel();
-		panel_AsocRegistrados_2.setPreferredSize(new Dimension(80, 30));
-		panel_AsocRegistrados_2.setBackground(Color.WHITE);
-		panel_info.add(panel_AsocRegistrados_2);
-		panel_AsocRegistrados_2.setLayout(new BorderLayout(0, 0));
-		
-		JLabel label_numPacientesEnAtencion = new JLabel("  00");
-		label_numPacientesEnAtencion.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		panel_AsocRegistrados_2.add(label_numPacientesEnAtencion, BorderLayout.CENTER);
-		
-		JLabel label_PacientesEnAtencion = new JLabel("   Pacientes En Atencion");
-		label_PacientesEnAtencion.setVerticalAlignment(SwingConstants.TOP);
-		label_PacientesEnAtencion.setHorizontalAlignment(SwingConstants.LEFT);
-		panel_AsocRegistrados_2.add(label_PacientesEnAtencion, BorderLayout.SOUTH);
 		
 		JPanel panel_EstadoDeAmbulancia = new JPanel();
 		panel_EstadoDeAmbulancia.setPreferredSize(new Dimension(80, 30));
@@ -209,21 +181,6 @@ public class VentanaPrincipal extends JFrame {
 		lblInicio.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_VistaActual.add(lblInicio, BorderLayout.CENTER);
 		
-		JPanel panel_3 = new JPanel();
-		toolBar.add(panel_3);
-		
-		JPanel panel_4 = new JPanel();
-		toolBar.add(panel_4);
-		
-		btnAgregarPaciente = new JButton(" + Agregar Paciente");
-		panel_4.add(btnAgregarPaciente);
-		
-		JPanel panel_5 = new JPanel();
-		toolBar.add(panel_5);
-		
-		btnFacturacion = new JButton(" Facturacion");
-		panel_5.add(btnFacturacion);
-		
 		JPanel panel_Navegacion = new JPanel();
 		panel_Navegacion.setSize(new Dimension(130, 0));
 		panel_Navegacion.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -233,13 +190,12 @@ public class VentanaPrincipal extends JFrame {
 		boton_navegacionInicio = new JButton("Inicio");
 		panel_Navegacion.add(boton_navegacionInicio);
 		
+		
 		boton_navegacionAsociados = new JButton("Asociados");
 		boton_navegacionAsociados.addActionListener(this.controladorAsociados);
 		panel_Navegacion.add(boton_navegacionAsociados);
-		
-		boton_navegacionPacientes = new JButton("Pacientes");
-		panel_Navegacion.add(boton_navegacionPacientes);
-		
+		boton_navegacionInicio.setActionCommand("INICIO");
+
 		boton_navegacionAtencion = new JButton("Atencion");
 		panel_Navegacion.add(boton_navegacionAtencion);
 		
@@ -278,20 +234,5 @@ public class VentanaPrincipal extends JFrame {
 		return boton_navegacionInicio;
 	}
 
-	public JButton getBoton_navegacionPacientes() {
-		return boton_navegacionPacientes;
-	}
-
-	public JButton getBoton_navegacionAtencion() {
-		return boton_navegacionAtencion;
-	}
-	public JButton getBtnAgregarPaciente() {
-		return btnAgregarPaciente;
-	}
-
-	public JButton getBtnFacturacion() {
-		return btnFacturacion;
-	}
-	
 	
 }

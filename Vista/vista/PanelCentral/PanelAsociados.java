@@ -40,8 +40,8 @@ public class PanelAsociados extends JPanel{
         modelo = new DefaultTableModel(new Object[]{"Nombre y Apellido", "DNI", "Ciudad", "Teléfono", "Domicilio", "Editar","Eliminar"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Solo la columna de botones es editable
-                return column == 5;
+                // Solo las columna de botones son editables
+                return column == 5 || column == 6;
             }
         };
         // ---- Cargar datos
@@ -68,7 +68,7 @@ public class PanelAsociados extends JPanel{
         
         tabla.getColumn("Editar").setCellRenderer(new ButtonRenderer("Editar"));
         tabla.getColumn("Editar").setCellEditor(new ButtonEditor(tabla, controladorAsociados, "SELECT_UPDATE"));
-        tabla.getColumn("Eliminar").setCellRenderer(new ButtonRenderer("Eliminar"));
+        tabla.getColumn("Eliminar").setCellRenderer(new ButtonRenderer("X"));
         tabla.getColumn("Eliminar").setCellEditor(new ButtonEditor(tabla, controladorAsociados, "SELECT_DELETE"));
         
         add(new JScrollPane(tabla), BorderLayout.CENTER);

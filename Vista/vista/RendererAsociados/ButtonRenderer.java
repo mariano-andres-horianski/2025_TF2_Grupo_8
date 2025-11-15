@@ -10,7 +10,7 @@ public class ButtonRenderer extends JPanel implements TableCellRenderer {
 
     public ButtonRenderer(String text) {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        btn.setPreferredSize(new Dimension(60, 15));
+        btn.setPreferredSize(new Dimension(90, 15));
 
         btn.setText(text);
         add(btn);

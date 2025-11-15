@@ -18,7 +18,7 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
         this.tabla = tabla;
         
 
-        btnEditar = new JButton("Editar");
+        btnEditar = new JButton(accion.equals("SELECT_DELETE") ? "X" : "Editar");
         
         //para que no los redimensione al clickearlos
         btnEditar.setPreferredSize(new Dimension(60, 15));
