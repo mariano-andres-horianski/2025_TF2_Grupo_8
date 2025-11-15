@@ -1,15 +1,21 @@
 package vista.formularios;
 
 import javax.swing.*;
+
+import ControladorAsociados.ActionListenerAsociados;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 
 public class FormularioUpdateAsociado extends JDialog {
     private JTextField txtDni, txtNya, txtCiudad, txtTelefono, txtDomicilio;
     private JButton btnGuardar, btnCancelar;
-
-    public FormularioUpdateAsociado(AsociadoDTO socio) {
+    private ActionListenerAsociados controlador;
+    public FormularioUpdateAsociado(AsociadoDTO socio,ActionListenerAsociados controlador) {
         setTitle("Editar Asociado");
+        this.controlador = controlador;
         setModal(true); // Hace que bloquee la ventana principal
         setSize(350, 300);
         setLayout(new GridLayout(6, 2, 5, 5));
@@ -47,7 +53,7 @@ public class FormularioUpdateAsociado extends JDialog {
             socio.setCiudad(txtCiudad.getText());
             socio.setTelefono(txtTelefono.getText());
             socio.setDomicilioStr(txtDomicilio.getText());
-            JOptionPane.showMessageDialog(this, "Datos actualizados correctamente.");
+            controlador.actionPerformed(new ActionEvent(socio,0,"UPDATE"));
             dispose();
         });
 

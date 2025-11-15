@@ -30,8 +30,7 @@ public class CreateFormListener extends MouseAdapter{
     	asociado.setTelefono(formulario.getTxtTelefono().getText());
     	
         if (SwingUtilities.isLeftMouseButton(e)) {
-            // Crear y enviar un ActionEvent al controlador
-            ActionEvent evento = new java.awt.event.ActionEvent(asociado, 0, "CREATE");
+            ActionEvent evento = new ActionEvent(asociado, 0, "CREATE");
 
             controlador.actionPerformed(evento);
         }

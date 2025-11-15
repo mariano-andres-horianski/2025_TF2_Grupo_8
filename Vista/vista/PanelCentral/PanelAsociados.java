@@ -37,14 +37,13 @@ public class PanelAsociados extends JPanel{
         add(topPanel, BorderLayout.NORTH);
 
         // ---- Modelo de tabla
-        modelo = new DefaultTableModel(new Object[]{"Nombre y Apellido", "DNI", "Ciudad", "Teléfono", "Domicilio", "Acciones"}, 0) {
+        modelo = new DefaultTableModel(new Object[]{"Nombre y Apellido", "DNI", "Ciudad", "Teléfono", "Domicilio", "Editar","Eliminar"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Solo la columna de botones es editable
                 return column == 5;
             }
         };
-
         // ---- Cargar datos
         if (socios.isEmpty()) {
             modelo.addRow(new Object[]{"No hay socios registrados.", "", "", "", "", ""});
@@ -56,24 +55,22 @@ public class PanelAsociados extends JPanel{
                     s.getCiudad(),
                     s.getTelefono(),
                     s.getDomicilioStr(),
-                    null // columna de botones
+                    null, // columna de boton editar
+                    null // columna de boton eliminar
                 });
+                
             }
         }
 
         // ---- Crear tabla
         tabla = new JTable(modelo);
-        tabla.setRowHeight(30);
-
-        // ---- Añadir botones a la última columna
-        TableColumn colAcciones = tabla.getColumnModel().getColumn(5);
-        colAcciones.setCellRenderer(new ButtonRenderer());
-        //colAcciones.setCellEditor(new ButtonEditor(new JCheckBox(), controladorAsociados));
-        modelo.addColumn("Acciones");
-        tabla = new JTable(modelo);
         
-        tabla.getColumn("Acciones").setCellRenderer(new ButtonRenderer());
-        tabla.getColumn("Acciones").setCellEditor(new ButtonEditor(tabla, controladorAsociados));
+        
+        tabla.getColumn("Editar").setCellRenderer(new ButtonRenderer("Editar"));
+        tabla.getColumn("Editar").setCellEditor(new ButtonEditor(tabla, controladorAsociados, "SELECT_UPDATE"));
+        tabla.getColumn("Eliminar").setCellRenderer(new ButtonRenderer("Eliminar"));
+        tabla.getColumn("Eliminar").setCellEditor(new ButtonEditor(tabla, controladorAsociados, "SELECT_DELETE"));
+        
         add(new JScrollPane(tabla), BorderLayout.CENTER);
 	}
 	
@@ -92,5 +89,14 @@ public class PanelAsociados extends JPanel{
 	public JButton getBtnAgregar() {
 		return btnAgregar;
 	}
-    
+	public void refrescarTabla(HashMap<String,AsociadoDTO> socios) {
+	    modelo.setRowCount(0); // borrar
+	    socios.values().forEach(s ->
+	        modelo.addRow(new Object[]{
+	            s.getNya(), s.getDni(), s.getCiudad(),
+	            s.getTelefono(), s.getDomicilioStr()
+	        })
+	    );
+	}
+
 }

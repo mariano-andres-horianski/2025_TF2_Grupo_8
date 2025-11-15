@@ -4,6 +4,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import ControladorAsociados.ActionListenerAsociados;
+
 public class FormularioCreateAsociado extends JDialog {
 
     private static final long serialVersionUID = 1L;
@@ -17,7 +19,7 @@ public class FormularioCreateAsociado extends JDialog {
     private JButton okButton;
     private JButton cancelButton;
 
-    public FormularioCreateAsociado() {
+    public FormularioCreateAsociado(ActionListenerAsociados controlador) {
         setTitle("Nuevo Asociado");
         setModal(true);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -49,7 +51,7 @@ public class FormularioCreateAsociado extends JDialog {
         textCiudad = new JTextField();
         contentPanel.add(textCiudad);
 
-        JLabel lblTelefono = new JLabel("Teléfono:");
+        JLabel lblTelefono = new JLabel("Telï¿½fono:");
         lblTelefono.setHorizontalAlignment(SwingConstants.RIGHT);
         contentPanel.add(lblTelefono);
         textTelefono = new JTextField();

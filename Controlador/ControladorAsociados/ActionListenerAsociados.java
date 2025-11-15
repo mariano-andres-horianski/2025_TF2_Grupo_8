@@ -55,9 +55,10 @@ public class ActionListenerAsociados implements ActionListener {
 		String comando = e.getActionCommand().toUpperCase();
 		
 		switch(comando) {
-			case "CREATE":
+			case "CREATE"://el usuario hizo click en "guardar" en el formulario de Agregar asociado
 				AsociadoDTO nuevoSocio = new AsociadoDTO();
 				
+				//Tendria que crear un AsociadoDTO en la vista y mandarlo y no guardar el formulario aca
 				nuevoSocio.setNya(this.formulario.getTextNYA().getText());
 				nuevoSocio.setDni(this.formulario.getTextDNI().getText());
 				nuevoSocio.setCiudad(this.formulario.getTextCiudad().getText());
@@ -77,7 +78,8 @@ public class ActionListenerAsociados implements ActionListener {
 				JPanel panelCentral = this.ventanaPrincipal.getPanel_Central();
 				PanelAsociados listado = new PanelAsociados(asociados,this);//me falta pasarle los listeners
 				this.ventanaPrincipal.setPanel_Central(listado);
-				listado.getBtnAgregar().addMouseListener(new CreateListenerAsociados());
+				listado.getBtnAgregar().addMouseListener(new CreateListenerAsociados(this));
+				
 				String nombrePanel = "PANEL_ASOCIADOS";
 	            panelCentral.add(listado, nombrePanel);
 	            ///Creo un panel de cero y lo guardo en el panel central
@@ -87,6 +89,16 @@ public class ActionListenerAsociados implements ActionListener {
 	            panelCentral.repaint();
 				break;
 			case "UPDATE":
+				AsociadoDTO socio = (AsociadoDTO) e.getSource();
+				
+				try {
+					BD.actualizar(socio);
+				} catch (AsociadoNotFoundException e1) {
+					e1.printStackTrace();
+				}
+				HashMap<String,AsociadoDTO> nuevos = BD.obtenerTodosMap();
+				PanelAsociados panelAsociados = (PanelAsociados)this.ventanaPrincipal.getPanel_Central();
+			    panelAsociados.refrescarTabla(nuevos);
 				
 				break;
 			case "DELETE":
@@ -100,30 +112,19 @@ public class ActionListenerAsociados implements ActionListener {
 					e1.printStackTrace();
 				}
 				break;
+			case "SELECT_UPDATE":
+				FormularioUpdateAsociado form = new FormularioUpdateAsociado((AsociadoDTO)e.getSource(),this);
+				form.setLocationRelativeTo(null);
+	            form.setVisible(true);
+	            
+				break;
+			case "SELECT_DELETE":
+				//Lanzar un pop up que pregunte al usuario si esta seguro de eliminar al asociado
+				break;
 		}
 		
 	}
-	public void editarSocioDesdeTabla(int fila) {
-	    //String dni = (String) panelAsociados.getModelo().getValueAt(fila, 1);
-	    //AsociadoDTO socio = this.BD.obtenerPorDni(dni); 
-	    //new FormularioUpdateAsociado(socio).setVisible(true);
-	}
 
-	public void eliminarSocioDesdeTabla(int fila) {
-	    /*String dni = (String) panelAsociados.getModelo().getValueAt(fila, 1);
-	    int opt = JOptionPane.showConfirmDialog(null, 
-	        "¿Seguro que desea eliminar al socio con DNI " + dni + "?",
-	        "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
-	    if (opt == JOptionPane.YES_OPTION) {
-	    	try {
-				BD.eliminarPorDni(dni);
-			} catch (AsociadoNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-	        panelAsociados.getModelo().removeRow(fila);
-	    }*/
-	}
 
 	
 }

@@ -6,13 +6,14 @@ import javax.swing.table.TableCellRenderer;
 
 public class ButtonRenderer extends JPanel implements TableCellRenderer {
 
-    private JButton btnEditar = new JButton("Editar");
-    private JButton btnEliminar = new JButton("Eliminar");
+    private JButton btn = new JButton();
 
-    public ButtonRenderer() {
+    public ButtonRenderer(String text) {
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 0));
-        add(btnEditar);
-        add(btnEliminar);
+        btn.setPreferredSize(new Dimension(60, 15));
+
+        btn.setText(text);
+        add(btn);
     }
 
     @Override

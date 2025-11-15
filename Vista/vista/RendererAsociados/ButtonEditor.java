@@ -11,46 +11,35 @@ import persistencia.DAOAsociadoYDTO.AsociadoDAOMySQL;
 public class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
     private JPanel panel;
     private JButton btnEditar;
-    private JButton btnEliminar;
     private JTable tabla;
-    private ActionListenerAsociados controlador;
+    private AsociadoDAOMySQL BD;
 
-    public ButtonEditor(JTable tabla, ActionListenerAsociados controlador) {
+    public ButtonEditor(JTable tabla, ActionListenerAsociados controlador, String accion) {
         this.tabla = tabla;
-        this.controlador = controlador;
+        
 
         btnEditar = new JButton("Editar");
-        btnEliminar = new JButton("Eliminar");
-
+        
+        //para que no los redimensione al clickearlos
+        btnEditar.setPreferredSize(new Dimension(60, 15));
+        
         panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
         panel.add(btnEditar);
-        panel.add(btnEliminar);
-
         btnEditar.addActionListener(e -> {
             int fila = tabla.getSelectedRow();
             if (fila >= 0) {
-                String dni = (String) tabla.getValueAt(fila, 1);
-                //AsociadoDTO socio = BD.obtenerPorDni(dni);
-
-                // Mandar evento "UPDATE" al controlador
-                //ActionEvent evento = new ActionEvent(socio, ActionEvent.ACTION_PERFORMED, "UPDATE");
-                //controlador.actionPerformed(evento);
+                AsociadoDTO socio = new AsociadoDTO();
+                socio.setNya((String) tabla.getValueAt(fila, 0));
+                socio.setDni((String) tabla.getValueAt(fila, 1));
+                socio.setCiudad((String)tabla.getValueAt(fila, 2));
+                socio.setTelefono((String)tabla.getValueAt(fila, 3));
+                socio.setDomicilioStr((String)tabla.getValueAt(fila, 4));
+                
+                controlador.actionPerformed(new ActionEvent(socio, ActionEvent.ACTION_PERFORMED, accion));
             }
             fireEditingStopped();
         });
-
-        // Botón eliminar (opcional)
-        btnEliminar.addActionListener(e -> {
-            int fila = tabla.getSelectedRow();
-            if (fila >= 0) {
-                String dni = (String) tabla.getValueAt(fila, 1);
-                //AsociadoDTO socio = BD.obtenerPorDni(dni);
-
-                //ActionEvent evento = new ActionEvent(socio, ActionEvent.ACTION_PERFORMED, "DELETE");
-                //controlador.actionPerformed(evento);
-            }
-            fireEditingStopped();
-        });
+        
     }
 
     @Override
@@ -61,5 +50,9 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
     @Override
     public Object getCellEditorValue() {
         return null;
+    }
+    
+    public JTable getTabla() {
+    	return this.tabla;
     }
 }
