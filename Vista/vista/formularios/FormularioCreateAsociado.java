@@ -1,0 +1,150 @@
+package vista.formularios;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import controlador.Asociados.ActionListenerAsociados;
+import persistencia.DAOAsociadoYDTO.AsociadoDTO;
+/**
+ * Formulario (JDialog) modal para la creación de un nuevo Asociado.
+ * <p>
+ * Esta clase representa la Vista (en MVC) para el caso de uso "Crear Asociado".
+ * Recopila la información ingresada por el usuario y, al presionar "Guardar", empaqueta esta información en un AsociadoDTO y 
+ * la envía al controlador  (ActionListenerAsociado}) encapsulada en un ActionEvent con el comando "CREATE".
+ */
+public class FormularioCreateAsociado extends JDialog {
+
+    private static final long serialVersionUID = 1L;
+    private final JPanel contentPanel = new JPanel();
+    private JTextField textNYA;
+    private JTextField textDNI;
+    private JTextField textCiudad;
+    private JTextField textTelefono;
+    private JTextField textDomicilio;
+
+    private JButton okButton;
+    private JButton cancelButton;
+    /**
+     * Constructor del formulario de creación.
+	 * Inicializa y configura todos los componentes de la GUI.
+	 * <p><b>Precondición:</b> El controlador no debe ser nulo.
+	 * <p><b>Postcondición:</b> 
+	 * <pre>
+	 * El JDialog se inicializa como modal y se configura.
+	 * El botón "Guardar" está configurado para:
+	 * 	1. Crear un AsociadoDTO con los datos de los campos de texto.
+	 * 	2. Crear un ActionEvent con el DTO como source y el comando "CREATE".
+	 * 	3. Enviar el evento al controlador.
+	 * 	4. Cerrar el diálogo (dispose).
+	 * El botón "Cancelar" está configurado para cerrar el diálogo (dispose).
+	 * </pre>
+	 * @param controlador El controlador (ActionListenerAsociados) que gestionará los eventos de esta vista. 
+     */
+    public FormularioCreateAsociado(ActionListenerAsociados controlador) {
+        setTitle("Nuevo Asociado");
+        setModal(true);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        setSize(400, 320);
+        setLocationRelativeTo(null);
+
+        getContentPane().setLayout(new BorderLayout());
+        contentPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        getContentPane().add(contentPanel, BorderLayout.CENTER);
+
+        // Formulario con etiquetas y campos
+        contentPanel.setLayout(new GridLayout(5, 2, 10, 10));
+
+        JLabel lblNYA = new JLabel("Nombre y Apellido:");
+        lblNYA.setHorizontalAlignment(SwingConstants.RIGHT);
+        contentPanel.add(lblNYA);
+        textNYA = new JTextField();
+        contentPanel.add(textNYA);
+
+        JLabel lblDNI = new JLabel("DNI:");
+        lblDNI.setHorizontalAlignment(SwingConstants.RIGHT);
+        contentPanel.add(lblDNI);
+        textDNI = new JTextField();
+        contentPanel.add(textDNI);
+
+        JLabel lblCiudad = new JLabel("Ciudad:");
+        lblCiudad.setHorizontalAlignment(SwingConstants.RIGHT);
+        contentPanel.add(lblCiudad);
+        textCiudad = new JTextField();
+        contentPanel.add(textCiudad);
+
+        JLabel lblTelefono = new JLabel("Tel�fono:");
+        lblTelefono.setHorizontalAlignment(SwingConstants.RIGHT);
+        contentPanel.add(lblTelefono);
+        textTelefono = new JTextField();
+        contentPanel.add(textTelefono);
+
+        JLabel lblDomicilio = new JLabel("Domicilio:");
+        lblDomicilio.setHorizontalAlignment(SwingConstants.RIGHT);
+        contentPanel.add(lblDomicilio);
+        textDomicilio = new JTextField();
+        contentPanel.add(textDomicilio);
+
+        // Panel inferior con botones
+        JPanel buttonPane = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        getContentPane().add(buttonPane, BorderLayout.SOUTH);
+
+        okButton = new JButton("Guardar");
+        okButton.setActionCommand("OK");
+        buttonPane.add(okButton);
+        getRootPane().setDefaultButton(okButton);
+
+        cancelButton = new JButton("Cancelar");
+        cancelButton.setActionCommand("Cancel");
+        buttonPane.add(cancelButton);
+        
+        okButton.addActionListener(e -> {
+        	AsociadoDTO socio = new AsociadoDTO();
+        	socio.setDni(textDNI.getText());
+            socio.setNya(textNYA.getText());
+            socio.setCiudad(textCiudad.getText());
+            socio.setTelefono(textTelefono.getText());
+            socio.setDomicilioStr(textDomicilio.getText());
+            controlador.actionPerformed(new ActionEvent(socio,0,"CREATE"));
+            dispose();
+        });
+
+        cancelButton.addActionListener(e -> dispose());
+    }
+
+    // Getters (mismos nombres que antes)
+    public JPanel getContentPanel() {
+        return contentPanel;
+    }
+
+    public JTextField getTextNYA() {
+        return textNYA;
+    }
+
+    public JTextField getTextDNI() {
+        return textDNI;
+    }
+
+    public JTextField getTextCiudad() {
+        return textCiudad;
+    }
+
+    public JTextField getTextTelefono() {
+        return textTelefono;
+    }
+
+    public JTextField getTextDomicilio() {
+        return textDomicilio;
+    }
+
+    public JButton getOkButton() {
+        return okButton;
+    }
+
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+}
