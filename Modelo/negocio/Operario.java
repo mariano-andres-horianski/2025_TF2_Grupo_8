@@ -2,7 +2,7 @@ package negocio;
 
 import clinica.SingletonClinica;
 
-public class Operario {
+public class Operario implements Runnable {
 
     private SingletonClinica clinica;
 
@@ -14,5 +14,10 @@ public class Operario {
         System.out.println("Operario solicita mantenimiento");
         clinica.getAmbulancia().solicitarMantenimiento();
     }
+
+	@Override
+	public void run() {
+		solicitarMantenimientoAmbulancia();
+	}
 	
 }

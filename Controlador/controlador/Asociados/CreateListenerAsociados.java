@@ -1,4 +1,4 @@
-package ControladorAsociados;
+package controlador.Asociados;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -1,16 +1,20 @@
 package negocio;
 
+import clinica.SingletonClinica;
 import patronState.*;
 
 public class Ambulancia {
 	private IAmbulanciaState estado;
+	private SingletonClinica clinica;
 
-	public Ambulancia() {
+	public Ambulancia(SingletonClinica clinica) {
 		this.estado = new AmbulanciaStateDisponible(this);
+		this.clinica = clinica;
 	}
 
-	public synchronized void solicitarAtencionDomicilio() {
-		while (!estado.puedeAtencionDomicilio()) {
+	public synchronized void solicitarAtencionDomicilio(String s) {
+		while (!estado.puedeAtencionDomicilio() && clinica.isSimulacionActiva()) {
+			accesoDenegado(s + " no puede solicitar atención a domicilio");
 			informar(estado.toString());
 			try {
 				wait();
@@ -19,14 +23,14 @@ public class Ambulancia {
 			}
 		}
 
-		estado.solicitarAtencionDomicilio();
+		if (clinica.isSimulacionActiva())
+			estado.solicitarAtencionDomicilio();
 		notifyAll();
-
-		// a implementar observer-observable para actualizar la información del estado de la Ambulancia
 	}
 
-	public synchronized void solicitarTrasladoClinica() {
-		while (!estado.puedeTrasladoClinica()) {
+	public synchronized void solicitarTrasladoClinica(String s) {
+		while (!estado.puedeTrasladoClinica() && clinica.isSimulacionActiva()) {
+			accesoDenegado(s + " no puede solicitar traslado a clínica");
 			informar(estado.toString());
 			try {
 				wait();
@@ -35,14 +39,14 @@ public class Ambulancia {
 			}
 		}
 
-		estado.solicitarTrasladoClinica();
+		if (clinica.isSimulacionActiva())
+			estado.solicitarTrasladoClinica();
 		notifyAll();
-
-		// a implementar observer-observable para actualizar la información del estado de la Ambulancia
 	}
 
 	public synchronized void retornoAutomatico() {
-		while (!estado.puedeRetornoAutomatico()) {
+		while (!estado.puedeRetornoAutomatico() && clinica.isSimulacionActiva()) {
+			// accesoDenegado(); puede siempre el retorno
 			informar(estado.toString());
 			try {
 				wait();
@@ -51,14 +55,14 @@ public class Ambulancia {
 			}
 		}
 
-		estado.retornoAutomatico();
+		if (clinica.isSimulacionActiva())
+			estado.retornoAutomatico();
 		notifyAll();
-
-		// a implementar observer-observable para actualizar la información del estado de la Ambulancia
 	}
 
 	public synchronized void solicitarMantenimiento() {
-		while (!estado.puedeMantenimiento()) {
+		while (!estado.puedeMantenimiento() && clinica.isSimulacionActiva()) {
+			accesoDenegado("Operario no pudo solicitar mantenimiento");
 			informar(estado.toString());
 			try {
 				wait();
@@ -67,16 +71,25 @@ public class Ambulancia {
 			}
 		}
 
-		estado.solicitarMantenimiento();
+		if (clinica.isSimulacionActiva())
+			estado.solicitarMantenimiento();
 		notifyAll();
-
-		// a implementar observer-observable para actualizar la información del estado de la Ambulancia
 	}
 
+	public synchronized void finalizar() {
+	    notifyAll();
+	}
+	
 	private void informar(String s) {
-		// a implementar, informa por vista la razón
-		// implementación temporal
 		System.out.println("AMBULANCIA OCUPADA: " + s);
+		clinica.notificarAmbulanciaOcupada(s);
+		
+	}
+	
+	private void accesoDenegado(String s) {
+		String msg = "PEDIDO DENEGADO: " + s;
+		System.out.println(msg);
+		clinica.notificarEvento(msg);
 	}
 
 	public IAmbulanciaState getEstado() {
@@ -85,5 +98,6 @@ public class Ambulancia {
 
 	public void setEstado(IAmbulanciaState estado) {
 		this.estado = estado;
+		clinica.notificarCambioEstadoAmbulancia(estado.toString());
 	}
 }

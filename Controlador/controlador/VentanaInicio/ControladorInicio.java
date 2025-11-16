@@ -1,4 +1,4 @@
-package ControladorVentanaInicio;
+package controlador.VentanaInicio;
 
 public class ControladorInicio {
 	

@@ -19,6 +19,7 @@ public class Asociado extends Persona implements Runnable {
     public void run() {
 
         while (clinica.isSimulacionActiva()) {
+        	
 
             int accion = random.nextInt(2); 
             // 0 = atencion domicilio
@@ -27,16 +28,18 @@ public class Asociado extends Persona implements Runnable {
             switch (accion) {
                 case 0:
                     System.out.println(getNya() + " -> Pide atención a domicilio"); // temporal
-                    clinica.getAmbulancia().solicitarAtencionDomicilio();
+                    clinica.notificarEvento(getNya() + " pidió atención a domicilio");
+                    clinica.getAmbulancia().solicitarAtencionDomicilio(getNya());
                     break;
                 case 1:
                     System.out.println(getNya() + " -> Pide traslado a clínica"); // temporal
-                    clinica.getAmbulancia().solicitarTrasladoClinica();
+                    clinica.notificarEvento(getNya() + " pidió traslado a la clínica");
+                    clinica.getAmbulancia().solicitarTrasladoClinica(getNya());
                     break;
             }
 
             try {
-                Thread.sleep(2000); // espera entre trámites
+                Thread.sleep(5000 + random.nextInt(2000)); // espera entre trámites
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

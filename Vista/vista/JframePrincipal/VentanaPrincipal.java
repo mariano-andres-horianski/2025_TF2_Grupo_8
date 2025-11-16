@@ -31,7 +31,9 @@ import java.awt.FlowLayout;
 import javax.swing.JSplitPane;
 import javax.swing.table.DefaultTableModel;
 
-import ControladorAsociados.ActionListenerAsociados;
+import controlador.Asociados.ActionListenerAsociados;
+import controlador.Simulacion.ActionListenerSimulacion;
+import vista.PanelCentral.PanelSimulacion;
 import vista.PanelCentral.Panel_Inicio;
 
 import java.awt.Font;
@@ -47,9 +49,10 @@ public class VentanaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private ActionListenerAsociados controladorAsociados;
+	private ActionListenerSimulacion controladorSimulacion;
 	private JButton boton_navegacionAsociados;
 	private JButton boton_navegacionInicio;
-	private JButton boton_navegacionAtencion;
+	private JButton boton_navegacionSimulacion;
 	private JPanel panel_Central;
 
 	/**
@@ -113,7 +116,13 @@ public class VentanaPrincipal extends JFrame {
 		panel_Central = new JPanel(new CardLayout());
 		contentPane.add(panel_Central, BorderLayout.CENTER);
 		panel_Central.setLayout(new CardLayout(0, 0));
-		//
+		
+		panel_Central.add(new PanelSimulacion(controladorSimulacion), "name_1387589521300");
+		/*
+		
+		El código de debajo es el usado por PanelSimulacion para crearse, por lo que se simplifica a la línea de arriba
+		Dejo el código para tener un backup por las dudas, debería borrarse
+		
 		Panel_Inicio panel_Inicio = new Panel_Inicio();
 		panel_Inicio.setSize(new Dimension(0, 200));
 		panel_Inicio.setBounds(new Rectangle(0, 0, 0, 200));
@@ -167,7 +176,7 @@ public class VentanaPrincipal extends JFrame {
 		
 		JPanel panel_2 = new JPanel();
 		panel_Inicio.add(panel_2, BorderLayout.SOUTH);
-		
+		*/
 		JToolBar toolBar = new JToolBar();
 		toolBar.setPreferredSize(new Dimension(13, 50));
 		contentPane.add(toolBar, BorderLayout.NORTH);
@@ -196,8 +205,9 @@ public class VentanaPrincipal extends JFrame {
 		panel_Navegacion.add(boton_navegacionAsociados);
 		boton_navegacionInicio.setActionCommand("INICIO");
 
-		boton_navegacionAtencion = new JButton("Atencion");
-		panel_Navegacion.add(boton_navegacionAtencion);
+		boton_navegacionSimulacion = new JButton("Simulacion");
+		panel_Navegacion.add(boton_navegacionSimulacion);
+		boton_navegacionSimulacion.setActionCommand("SIMULACION");
 		
 		JPanel panel_aux1 = new JPanel();
 		panel_Navegacion.add(panel_aux1);
@@ -213,6 +223,11 @@ public class VentanaPrincipal extends JFrame {
 	public void setControladorAsociados(ActionListenerAsociados controladorAsociados) {
 		this.controladorAsociados = controladorAsociados;
 	}
+	
+
+	public void setControladorSimulacion(ActionListenerSimulacion controladorSimulacion) {
+		this.controladorSimulacion = controladorSimulacion;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -225,6 +240,11 @@ public class VentanaPrincipal extends JFrame {
 	public ActionListenerAsociados getControladorAsociados() {
 		return controladorAsociados;
 	}
+	
+
+	public ActionListenerSimulacion getControladorSimulacion() {
+		return controladorSimulacion;
+	}
 
 	public JButton getBoton_navegacionAsociados() {
 		return boton_navegacionAsociados;
@@ -232,6 +252,10 @@ public class VentanaPrincipal extends JFrame {
 
 	public JButton getBoton_navegacionInicio() {
 		return boton_navegacionInicio;
+	}
+
+	public JButton getBoton_navegacionSimulacion() {
+		return boton_navegacionSimulacion;
 	}
 
 	

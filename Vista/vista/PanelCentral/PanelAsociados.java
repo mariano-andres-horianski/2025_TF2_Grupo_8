@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import ControladorAsociados.ActionListenerAsociados;
+import controlador.Asociados.ActionListenerAsociados;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 import vista.RendererAsociados.ButtonRenderer;
 import vista.RendererAsociados.*;

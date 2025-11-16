@@ -2,7 +2,7 @@ package vista.formularios;
 
 import javax.swing.*;
 
-import ControladorAsociados.ActionListenerAsociados;
+import controlador.Asociados.ActionListenerAsociados;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;

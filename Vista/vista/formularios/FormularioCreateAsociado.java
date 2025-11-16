@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import ControladorAsociados.ActionListenerAsociados;
+import controlador.Asociados.ActionListenerAsociados;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 
 public class FormularioCreateAsociado extends JDialog {

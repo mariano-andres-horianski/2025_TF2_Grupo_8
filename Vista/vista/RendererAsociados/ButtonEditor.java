@@ -4,7 +4,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
-import ControladorAsociados.ActionListenerAsociados;
+
+import controlador.Asociados.ActionListenerAsociados;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 import persistencia.DAOAsociadoYDTO.AsociadoDAOMySQL;
 

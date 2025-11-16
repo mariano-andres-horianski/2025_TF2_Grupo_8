@@ -1,23 +1,29 @@
 package negocio;
 
+import clinica.SingletonClinica;
+
 public class RetornoAutomatico implements Runnable {
     private Ambulancia ambulancia;
+    private SingletonClinica clinica;
 
-    public RetornoAutomatico(Ambulancia ambulancia) {
+    public RetornoAutomatico(Ambulancia ambulancia, SingletonClinica clinica) {
         this.ambulancia = ambulancia;
+        this.clinica = clinica;
     }
 
     @Override
     public void run() {
-        while(true) {
+        while(clinica.isSimulacionActiva()) {
+
+            System.out.println("Evento: Retorno automatico solicitado por el sistema");
+            clinica.notificarEvento("RETORNO: Retorno automático solicitado");
+            ambulancia.retornoAutomatico();
+            
             try {
                 Thread.sleep(5000); // cada 5 segundos genera el evento temporal
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            System.out.println("Evento: Retorno automatico solicitado por el sistema");
-            ambulancia.retornoAutomatico();
         }
     }
 }

@@ -10,8 +10,10 @@ import excepciones.AsociadoNotFoundException;
 import negocio.Ambulancia;
 import negocio.Asociado;
 import negocio.Operario;
+import negocio.RetornoAutomatico;
 
 import java.util.HashMap;
+import java.util.Observable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  * Esta clase almacena los datos de la clinica y la gestiona Implementa tanto
  * Singleton como Facade
  */
-public class SingletonClinica {
+public class SingletonClinica extends Observable {
 	/** Datos de la cl�nica **/
 	private String nombre, direccion, telefono, ciudad;
 	/** Instancia del Singleton */
@@ -53,13 +55,16 @@ public class SingletonClinica {
 	private ArrayList<IPrioridad> patio;
 	/** Listado de pacientes en espera en la sala */
 	private SalaEspera salaEspera;
-	
+
 	/** Ambulancia */
 	private Ambulancia ambulancia;
-	
+
 	/** Operario */
 	private Operario operario;
-	
+
+	/** Retorno automático */
+	private RetornoAutomatico retorno;
+
 	/** Simulacion activa */
 	private boolean simulacionActiva;
 
@@ -87,10 +92,11 @@ public class SingletonClinica {
 
 		consultasPorPaciente = new HashMap<>();
 		consultasPorMedico = new HashMap<>();
-		
-		ambulancia = new Ambulancia();
+
+		ambulancia = new Ambulancia(this);
 		operario = new Operario(this);
-		simulacionActiva = true;
+		retorno = new RetornoAutomatico(ambulancia, this);
+		simulacionActiva = false;
 	}
 
 	public static SingletonClinica getInstance() {
@@ -674,13 +680,54 @@ public class SingletonClinica {
 		return operario;
 	}
 
-	public boolean isSimulacionActiva() {
+	public synchronized boolean isSimulacionActiva() {
 		return simulacionActiva;
 	}
 
-	public void setSimulacionActiva(boolean simulacionActiva) {
-		this.simulacionActiva = simulacionActiva;
+	public synchronized void setSimulacionActiva(boolean activa) {
+		simulacionActiva = activa;
+		notifyAll(); // despierta hilos bloqueados
+	}
+
+	public HashMap<String, Asociado> getAsociados() {
+		return asociados;
+	}
+
+	public void lanzarSimulacion() {
+		if (!simulacionActiva) {
+
+			simulacionActiva = true;
+
+			Thread hiloRetorno = new Thread(retorno, "RetornoAutomatico");
+			hiloRetorno.start();
+
+			for (Asociado a : asociados.values()) {
+				Thread t = new Thread(a, "Asociado-" + a.getDni());
+				t.start();
+			}
+		}
 	}
 	
+	public synchronized void finalizarSimulacion() {
+	    simulacionActiva = false;
+
+	    notifyAll();
+	    ambulancia.finalizar();
+	}
+
+    public void notificarAmbulanciaOcupada(String estado) {
+        setChanged();
+        notifyObservers("RAZÓN:" + estado);
+    }
+    
+    public void notificarCambioEstadoAmbulancia(String estado) {
+        setChanged();
+        notifyObservers("ESTADO: " + estado);
+    }
+
+    public void notificarEvento(String msg) {
+        setChanged();
+        notifyObservers(msg);
+    }
 
 }

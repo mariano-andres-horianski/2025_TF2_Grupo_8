@@ -1,4 +1,4 @@
-package ControladorAsociados;
+package controlador.Asociados;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -23,8 +23,8 @@ public class DeleteListenerAsociados extends MouseAdapter{
         if (SwingUtilities.isLeftMouseButton(e)) { // click izquierdo
             int opt = JOptionPane.showConfirmDialog(
                 null,
-                "¿Está seguro de que desea eliminar al socio: " + socio.getNya() + "?",
-                "Confirmar eliminación",
+                "ï¿½Estï¿½ seguro de que desea eliminar al socio: " + socio.getNya() + "?",
+                "Confirmar eliminaciï¿½n",
                 JOptionPane.YES_NO_OPTION
             );
 

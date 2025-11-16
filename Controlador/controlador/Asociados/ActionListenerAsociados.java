@@ -1,4 +1,4 @@
-package ControladorAsociados;
+package controlador.Asociados;
 
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
@@ -18,6 +18,7 @@ import persistencia.Excepciones.AsociadoNotFoundException;
 import persistencia.Excepciones.DatoInvalidoException;
 import vista.JframePrincipal.VentanaPrincipal;
 import vista.PanelCentral.PanelAsociados;
+import vista.PanelCentral.PanelSimulacion;
 import vista.formularios.ConfirmDialog;
 import vista.formularios.FormularioCreateAsociado;
 import vista.formularios.FormularioUpdateAsociado;
