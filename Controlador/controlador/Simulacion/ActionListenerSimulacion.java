@@ -19,14 +19,30 @@ import persistencia.DAOAsociadoYDTO.AsociadoDAOMySQL;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
 import vista.JframePrincipal.VentanaPrincipal;
 import vista.PanelCentral.PanelSimulacion;
-
+/**
+ * Controlador para el módulo de simulación, siguiendo el patrón MVC.
+ *
+ * Esta clase actúa como el nexo entre la Vista (VentanaPrincipal y
+ * PanelSimulacion) y el Modelo (SingletonClinica).
+ *
+ * Implementa {@link ActionListener} para reaccionar a los eventos de la GUI (clics en botones).
+ * Implementa {@link Observer} para recibir notificaciones del Modelo  y actualizar la Vista en consecuencia.
+ *
+ */
 public class ActionListenerSimulacion implements ActionListener, Observer {
 
 	private VentanaPrincipal ventanaPrincipal;
 	private PanelSimulacion panelSimulacion;
 	private SingletonClinica clinica;
 	private AsociadoDAOMySQL BD;
-
+	/**
+	 * Construye el controlador de simulación.
+	 * <p>Obtiene la instancia del modelo (SingletonClinica) y se registra a sí mismo como Observador (Observer) para recibir actualizaciones.
+	 * </p>
+	 * <p>Extrae los socios de la base de datos y los convierte de AsociadoDTO a Asociado (un runnable)
+	 * </p>
+	 * <p><b>Postcondición:</b> this se añade a la lista de observadores de SingletonClinica.
+	 */
 	public ActionListenerSimulacion() {
 		this.clinica = SingletonClinica.getInstance();
 		try {
@@ -49,6 +65,19 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		}
 	}
 
+	/**
+	 * Establece y configura la vista principal (JFrame) para este controlador.
+	 * Este método es crucial para enlazar el Modelo, la Vista y el Controlador (MVC).
+	 * <p><b>Precondición:</b> ventanaPrincipal no debe ser nula.
+	 * <p><b>Postcondición:</b> 
+	 * <pre>
+	 * Este controlador se asigna a la ventanaPrincipal.
+	 * Se registra como ActionListener para el botón de navegación de simulación.
+	 * Se inicializa el PanelSimulacion, pasándole este controlador.
+	 * </pre>
+	 * @param ventanaPrincipal La instancia de la VentanaPrincipal (Vista).
+	 * 
+	 */
 	public void setVentanaPrincipal(VentanaPrincipal ventanaPrincipal) {
 		this.ventanaPrincipal = ventanaPrincipal;
 		this.ventanaPrincipal.setControladorSimulacion(this);
@@ -56,6 +85,14 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		this.panelSimulacion = new PanelSimulacion(ventanaPrincipal.getControladorSimulacion());
 	}
 
+	
+	/**
+	 * Maneja los eventos de acción (clics en botones) provenientes de la vista.
+	 * Delega las acciones al modelo (Clinica) o gestiona la navegación de la interfaz.
+	 * <p><b>Precondición:</b> e no debe ser nulo.
+	 * <p><b>Postcondición:</b> Se ejecuta la lógica correspondiente al comando del botón.
+	 * @param e El evento de acción que contiene el comando del botón. 
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand().toUpperCase();
@@ -100,7 +137,17 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		}
 	}
 
-	
+	/**
+	 * Inicia la simulación.
+	 * Delega el inicio de los hilos al modelo (Clinica) y actualiza la vista (PanelSimulacion) con un mensaje. 
+	 * Deshabilita los botones de navegacion para no poder modificar el modelo mientras la simulacion esta activa.
+	 * <p><b>Postcondición:</b>
+	 * <pre>
+	 * La simulación en SingletonClinica se marca como activa.
+	 * Los hilos de Asociados y RetornoAutomático son iniciados por la clínica.
+	 * Se añade "Simulación iniciada." al log de eventos de la vista.
+	 * </pre>
+	 */
 	public void comenzarSimulacion() {
 		panelSimulacion.agregarEvento("Simulación iniciada.\n");
 		ventanaPrincipal.getBoton_navegacionAsociados().setEnabled(false);
@@ -109,7 +156,17 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		panelSimulacion.comienzaSimulacion();
 		clinica.lanzarSimulacion();
 	}
-	
+	/**
+	 * Finaliza la simulación.
+	 * Delega la detención de los hilos al modelo (Clinica) y resetea la vista.
+	 * Rehabilita los botones de navegacion.
+	 * <p><b>Postcondición:</b>
+	 * <pre>
+	 * La simulación en SingletonClinica se marca como inactiva.
+	 * El estado de la ambulancia en la vista se resetea a "--".
+	 * Se añade "Simulación finalizada." al log de eventos de la vista.
+	 * </pre>
+	 */
 	public void finalizarSimulacion() {
 		panelSimulacion.agregarEvento("Simulación finalizada.\n");
 		panelSimulacion.actualizarEstadoAmbulancia("  --");
@@ -120,6 +177,17 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		clinica.finalizarSimulacion();
 	}
 
+	/**
+	 * Método invocado por el Observable (SingletonClinica) cuando hay un cambio en el Modelo.
+	 * Actualiza la vista (PanelSimulacion) con la información recibida.
+	 * <p><b>Precondición:</b>
+	 * o debe ser la instancia de SingletonClinica y arg debe ser una instancia de String.
+	 * <p><b>Postcondición:</b> 
+	 * Si arg es un estado, actualiza el label de estado de la ambulancia.
+	 * Si arg es un evento (otro String), lo añade al log de eventos de la vista.
+	 * @param o   El objeto Observable que notificó (debería ser SingletonClinica).
+	 * @param arg El argumento/mensaje pasado por el Observable (se espera un String).
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		
@@ -135,5 +203,4 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 		}
 		
 	}
-	
 }

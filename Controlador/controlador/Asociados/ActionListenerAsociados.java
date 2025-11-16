@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import clinica.SingletonClinica;
+import clinica.model.Domicilio;
+import excepciones.AsociadoDuplicadoException;
+import negocio.Asociado;
 import persistencia.BasedeDatos.BDConexion;
 import persistencia.DAOAsociadoYDTO.AsociadoDAOMySQL;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
@@ -56,7 +59,8 @@ public class ActionListenerAsociados implements ActionListener {
 		PanelAsociados listado;
 		JPanel panelCentral = ventanaPrincipal.getPanel_Central();;
 		CardLayout cl;
-
+		Domicilio d;
+		Asociado actual;
 		if (ventanaPrincipal.isBloqueoNavegacion()) {
 		    return; // Ignora clics si la simulacion esta activa
 		}
@@ -79,7 +83,7 @@ public class ActionListenerAsociados implements ActionListener {
 
 			case "CREATE"://usuario hizo click en "guardar" en el formulario de creacion
 			    AsociadoDTO nuevoSocio = (AsociadoDTO)e.getSource();
-
+			    
 			    try {
 			        BD.agregar(nuevoSocio);
 			    } catch (AsociadoExistenteException e1) {
@@ -89,6 +93,14 @@ public class ActionListenerAsociados implements ActionListener {
 			    // Actualizar tabla del panel ya creado
 			    asociados = BD.obtenerTodosMap();
 			    panelAsociados.refrescarTabla(asociados);
+			    d = new Domicilio(nuevoSocio.getDomicilioStr(),0);
+				actual = new Asociado(nuevoSocio.getDni(),nuevoSocio.getNya(),nuevoSocio.getCiudad(),nuevoSocio.getTelefono(),d);
+				try {
+					this.clinica.registrarAsociado(actual);
+				} catch (AsociadoDuplicadoException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			    break;
 			case "READ"://el usuario hizo click en el boton "asociados" para modificar el card layout, no hay pop up
 				//Modificar el panel central de la ventana principal para que contenga una lista de asociados
@@ -114,7 +126,10 @@ public class ActionListenerAsociados implements ActionListener {
 				}
 
 			    asociados = BD.obtenerTodosMap();
-			    panelAsociados.refrescarTabla(asociados);  // ← ESTA ES LA LINEA CORRECTA
+			    panelAsociados.refrescarTabla(asociados); 
+			    d = new Domicilio(socio.getDomicilioStr(),0);
+				actual = new Asociado(socio.getDni(),socio.getNya(),socio.getCiudad(),socio.getTelefono(),d);
+				//falta actualizar en SingletonClinica al asociado
 			    break;
 			case "DELETE":
 			    AsociadoDTO socioEliminado = (AsociadoDTO)e.getSource();
@@ -128,6 +143,7 @@ public class ActionListenerAsociados implements ActionListener {
 			    asociados = BD.obtenerTodosMap();
 			    panelAsociados.refrescarTabla(asociados);
 			    break;
+
 			case "SELECT_UPDATE":
 				FormularioUpdateAsociado form = new FormularioUpdateAsociado((AsociadoDTO)e.getSource(),this);
 				form.setLocationRelativeTo(null);

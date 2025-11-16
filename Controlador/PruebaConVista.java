@@ -16,6 +16,5 @@ public class PruebaConVista {
 
 		ActionListenerSimulacion controladorSimulacion = new ActionListenerSimulacion();
 		controladorSimulacion.setVentanaPrincipal(vista);
-
 	}
 }

@@ -10,7 +10,13 @@ import javax.swing.event.DocumentListener;
 
 import controlador.Asociados.ActionListenerAsociados;
 import persistencia.DAOAsociadoYDTO.AsociadoDTO;
-
+/**
+ * Formulario (JDialog) modal para la creación de un nuevo Asociado.
+ * <p>
+ * Esta clase representa la Vista (en MVC) para el caso de uso "Crear Asociado".
+ * Recopila la información ingresada por el usuario y, al presionar "Guardar", empaqueta esta información en un AsociadoDTO y 
+ * la envía al controlador  (ActionListenerAsociado}) encapsulada en un ActionEvent con el comando "CREATE".
+ */
 public class FormularioCreateAsociado extends JDialog {
 
     private static final long serialVersionUID = 1L;
@@ -23,7 +29,23 @@ public class FormularioCreateAsociado extends JDialog {
 
     private JButton okButton;
     private JButton cancelButton;
-
+    
+    /**
+     * Constructor del formulario de creación.
+	 * Inicializa y configura todos los componentes de la GUI.
+	 * <p><b>Precondición:</b> El controlador no debe ser nulo.
+	 * <p><b>Postcondición:</b> 
+	 * <pre>
+	 * El JDialog se inicializa como modal y se configura.
+	 * El botón "Guardar" está configurado para:
+	 * 	1. Crear un AsociadoDTO con los datos de los campos de texto.
+	 * 	2. Crear un ActionEvent con el DTO como source y el comando "CREATE".
+	 * 	3. Enviar el evento al controlador.
+	 * 	4. Cerrar el diálogo (dispose).
+	 * El botón "Cancelar" está configurado para cerrar el diálogo (dispose).
+	 * </pre>
+	 * @param controlador El controlador (ActionListenerAsociados) que gestionará los eventos de esta vista. 
+     */
     public FormularioCreateAsociado(ActionListenerAsociados controlador) {
         setTitle("Nuevo Asociado");
         setModal(true);
@@ -171,6 +193,7 @@ public class FormularioCreateAsociado extends JDialog {
         textCiudad.getDocument().addDocumentListener(listener);
         textTelefono.getDocument().addDocumentListener(listener);
         textDomicilio.getDocument().addDocumentListener(listener);
+
     }
 
 }

@@ -17,10 +17,25 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import controlador.Simulacion.ActionListenerSimulacion;
-
+/**
+ * Panel (Vista) principal para la interfaz de simulación.
+ * <p>
+ * Esta clase extiende JPanel y encapsula todos los componentes visuales para controlar e informar sobre la simulación.
+ * <p>
+ * <ul>
+ * <li>Muestra el estado de la ambulancia.</li>
+ * <li>Muestra el número de asociados registrados.</li>
+ * <li>Muestra un log de eventos en tiempo real (JTextArea).</li>
+ * <li>Proporciona los botones ("Comenzar", "Mantenimiento", "Finalizar")
+ * para interactuar con la simulación.</li>
+ * </ul>
+ * <p>
+ * Esta vista es "pasiva": delega el manejo de todos los eventos de acción al ActionListenerSimulacion (Controlador) 
+ * que recibe en su constructor.
+ */
 public class PanelSimulacion extends JPanel {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     private ActionListenerSimulacion controladorSimulacion;
     private JButton btnMantenimiento;
@@ -29,7 +44,17 @@ public class PanelSimulacion extends JPanel {
     private JTextArea textAreaEventos;
     private JLabel label_numAmbulancia;
     private JLabel label_numAsocRegistrados;
-
+    /**
+	 * Construye el panel de la simulación.
+	 * <p><b>Precondición:</b> controladorSimulacion no debe ser nulo.
+	 * <p><b>Postcondición:</b>
+	 * <pre>
+	 * El panel se inicializa con todos sus componentes visuales (paneles, etiquetas, área de texto y botones).
+	 * Los botones "Comenzar", "Mantenimiento" y "Finalizar" están configurados con sus respectivos ActionCommand y 
+	 * tienen al controladorSimulacion registrado como su ActionListener.
+	 * </pre>
+	 * @param controladorSimulacion El Controlador (ActionListenerSimulacion) que gestionará las acciones de los botones. 
+	 */
     public PanelSimulacion(ActionListenerSimulacion controladorSimulacion) {
 
         Panel_Inicio panel_Inicio = new Panel_Inicio();
@@ -108,16 +133,30 @@ public class PanelSimulacion extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(panel_Inicio, BorderLayout.CENTER);
     }
-    
+    /**
+	 * Añade un nuevo evento al log de la simulación.
+	 * Este método es invocado por el Controlador (vía Observer) cuando el Modelo notifica un nuevo evento.
+	 * @param e El mensaje del evento a registrar. 
+	 */
     public void agregarEvento(String e) {
         String tiempo = java.time.LocalTime.now().withNano(0).toString();
         textAreaEventos.append("[" + tiempo + "] " + e + "\n");
     }
-    
+    /**
+	 * Actualiza la etiqueta que muestra el estado actual de la ambulancia.
+	 * Este método es invocado por el Controlador (vía Observer).
+	 *
+	 * @param estado El nuevo texto del estado (ej. "Disponible", "En Taller").
+	 */
     public void actualizarEstadoAmbulancia(String estado) {
         label_numAmbulancia.setText(estado.toString());
     }
-    
+    /**
+	 * Actualiza la etiqueta que muestra el número total de asociados registrados.
+	 * Este método es invocado por el Controlador al cargar el panel.
+	 *
+	 * @param estado El número de asociados (como String). 
+	 */
     public void actualizarNumAsociados(String estado) {
         label_numAsocRegistrados.setText("  " + estado.toString());
     }
@@ -133,8 +172,9 @@ public class PanelSimulacion extends JPanel {
 		btnFinalizar.setEnabled(false);
 		btnMantenimiento.setEnabled(false);
     }
-    
     public JButton getBtnMantenimiento() { return btnMantenimiento; }
     public JButton getBtnFinalizar() { return btnFinalizar; }
     public JButton getBtnComenzar() { return btnComenzar; }
+    
+    
 }
