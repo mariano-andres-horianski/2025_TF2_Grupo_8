@@ -38,7 +38,6 @@ public class ButtonEditor extends AbstractCellEditor implements TableCellEditor 
                 
                 controlador.actionPerformed(new ActionEvent(socio, ActionEvent.ACTION_PERFORMED, accion));
             }
-            fireEditingStopped();
         });
         
     }

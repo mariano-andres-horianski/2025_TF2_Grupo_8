@@ -56,6 +56,10 @@ public class ActionListenerAsociados implements ActionListener {
 		PanelAsociados listado;
 		JPanel panelCentral = ventanaPrincipal.getPanel_Central();;
 		CardLayout cl;
+
+		if (ventanaPrincipal.isBloqueoNavegacion()) {
+		    return; // Ignora clics si la simulacion esta activa
+		}
 		
 		switch(comando) {
 			case "INICIO":

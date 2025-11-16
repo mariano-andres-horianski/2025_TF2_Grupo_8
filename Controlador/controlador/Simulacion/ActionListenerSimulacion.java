@@ -59,7 +59,6 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String comando = e.getActionCommand().toUpperCase();
-
 		switch (comando) {
 
 			case "SIMULACION":
@@ -80,6 +79,8 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 			case "INICIAR_SIM":
 				if (!clinica.isSimulacionActiva())
 					comenzarSimulacion();
+				ventanaPrincipal.setBloqueoNavegacion(true);
+
 				break;
 
 			case "MANTENIMIENTO":
@@ -93,6 +94,8 @@ public class ActionListenerSimulacion implements ActionListener, Observer {
 			case "FINALIZAR_SIMULACION":
 				if (clinica.isSimulacionActiva())
 					finalizarSimulacion();
+				ventanaPrincipal.setBloqueoNavegacion(false);
+
 				break;
 		}
 	}

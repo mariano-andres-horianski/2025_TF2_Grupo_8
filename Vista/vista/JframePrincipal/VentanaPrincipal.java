@@ -54,7 +54,7 @@ public class VentanaPrincipal extends JFrame {
 	private JButton boton_navegacionInicio;
 	private JButton boton_navegacionSimulacion;
 	private JPanel panel_Central;
-
+	private boolean bloqueoDeNavegacion = false;
 	/**
 	 * Launch the application.
 	public static void main(String[] args) {
@@ -252,5 +252,11 @@ public class VentanaPrincipal extends JFrame {
 		return boton_navegacionSimulacion;
 	}
 
-	
+	public void setBloqueoNavegacion(boolean bloquear) {
+	    this.bloqueoDeNavegacion = bloquear;
+	}
+
+	public boolean isBloqueoNavegacion() {
+	    return bloqueoDeNavegacion;
+	}
 }
